@@ -43,13 +43,13 @@
                                     <div class="input-all-cover --div"></div>
                                     <p class="_text">전체 선택</p>
                                 </label>
-                                <button class="delete-button" name="deleteAll" th:classappend="${items == null or #lists.isEmpty(items) or hasUncheckedItems} ? 'no-deleteButton' : ''" disabled>
+                                <button class="delete-button" name="deleteAll" th:classappend="${items == null or #lists.isEmpty(items) or hasUncheckedItems or member == null} ? 'no-deleteButton' : ''" disabled>
                                     <p class="_text _no-text">선택 삭제</p>
                                 </button>
                             </div>
                         </div>
                         <div id="list" th:classappend="${items == null or #lists.isEmpty(items)} ? 'no-items' : ''">
-                            <div id="no_list" th:if="${items == null or #lists.isEmpty(items)}">
+                            <div id="no_list" th:if="${items == null or #lists.isEmpty(items) or member == null}">
                                 <i class="no-items-icon" style="width: 64px; height: 64px;">
                                     <svg width="56" height="56" viewBox="0 0 21 22" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -159,8 +159,9 @@
                                                                     src="data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%2764%27%20height=%2783%27/%3e"
                                                                     style="display: block; max-width: 100%; width: initial; height: initial; background: none; opacity: 1; border: 0; margin: 0; padding: 0;">
                                                            </span>
-                                                           <img alt="" class="img"
+                                                           <img class="img"
                                                                 th:src="@{${item.getItemImage()}}"
+                                                                th:alt="${item.getItemName()}"
                                                                 decoding="async" data-nimg="intrinsic"
                                                                 style="position: absolute; inset: 0; box-sizing: border-box; padding: 0; border: none; margin: auto; display: block; width: 0; height: 0; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%; object-fit: cover;">
                                                        </span>
@@ -214,7 +215,7 @@
                     </div>
                     <div id="pay">
                         <div class="pay-container">
-                            <div class="delivery-box">
+                            <div class="delivery-box" th:if="${member != null}">
                                 <div class="delivery">
                                     <i class="delivery-icon">
                                         <svg width="16.333333334" height="16.333333334" viewBox="0 0 20 24" fill="none"
@@ -233,9 +234,7 @@
                                     <p class="_text">샛별배송</p>
                                     <div class="location">
                                         <div>
-                                            <p class="_text">
-                                                대구 중구 중앙대로 366
-                                                9층, 10층
+                                            <p class="_text" th:text="${member.getAddress()}">
                                             </p>
                                         </div>
                                         <button class="change-button" type="button">
@@ -264,7 +263,13 @@
                                 </div>
                                 <p class="mileage">쿠폰/적립금은 주문서에서 사용 가능합니다.</p>
                             </div>
-                            <button class="pay-button" type="submit" th:classappend="${items == null or #lists.isEmpty(items) or hasUncheckedItems} ? 'disabled' : ''" disabled></button>
+                            <button class="pay-button" type="submit" th:if="${member != null}" th:classappend="${items == null or #lists.isEmpty(items) or hasUncheckedItems} ? 'disabled' : ''" disabled></button>
+                            <a class="login" href="/member/login" th:if="${member == null}">
+                                <button type="button">
+                                    로그인
+                                </button>
+                            </a>
+
                         </div>
                     </div>
                 </div>

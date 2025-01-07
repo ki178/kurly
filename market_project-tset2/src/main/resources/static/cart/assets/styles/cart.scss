@@ -966,6 +966,37 @@
         cursor: default;
       }
     }
+
+    > .login {
+      display: flex;
+      z-index: 1;
+      overflow: hidden;
+      transition: all .1s ease-out;
+      justify-content: center;
+
+      cursor: pointer;
+      border-width: 0;
+      box-sizing: border-box;
+      border-radius: 0.75rem;
+      height: 3.5rem;
+      font-weight: 600;
+      font-size: 1.125rem;
+      width: 23.4375rem;
+      padding: 1.5rem;
+      align-items: center;
+
+      $background_color: #672091;
+      color: #fff;
+      background-color: $background_color;
+
+      &:hover {
+        background-color: darken($background_color, 5%);
+      }
+
+      &:active {
+        background-color: darken($background_color, 10%);
+      }
+    }
   }
 }
 

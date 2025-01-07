@@ -9,6 +9,8 @@ import java.util.List;
 @Mapper
 public interface CartMapper {
 
+    List<CartEntity> selectCartsByMemberId(@Param("memberId") String memberId);
+
     List<CartEntity> selectAllCarts();
 
     CartEntity selectCartByIndex(@Param("index") int index);

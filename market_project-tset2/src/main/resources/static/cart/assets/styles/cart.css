@@ -942,6 +942,31 @@ i {
   color: #c19edf;
   cursor: default;
 }
+#pay > .pay-container > .login {
+  display: flex;
+  z-index: 1;
+  overflow: hidden;
+  transition: all 0.1s ease-out;
+  justify-content: center;
+  cursor: pointer;
+  border-width: 0;
+  box-sizing: border-box;
+  border-radius: 0.75rem;
+  height: 3.5rem;
+  font-weight: 600;
+  font-size: 1.125rem;
+  width: 23.4375rem;
+  padding: 1.5rem;
+  align-items: center;
+  color: #fff;
+  background-color: #672091;
+}
+#pay > .pay-container > .login:hover {
+  background-color: rgb(88.1610169492, 27.3898305085, 124.1101694915);
+}
+#pay > .pay-container > .login:active {
+  background-color: rgb(73.3220338983, 22.7796610169, 103.2203389831);
+}
 
 .---dialog-cover2 > .--dialog {
   position: fixed;

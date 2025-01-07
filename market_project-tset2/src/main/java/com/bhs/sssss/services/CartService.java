@@ -19,9 +19,16 @@ public class CartService {
         this.memberMapper = memberMapper;
     }
 
+
+    public List<CartEntity> getCartsByMemberId(String memberId) {
+        return this.cartMapper.selectCartsByMemberId(memberId);
+    }
+
     public List<CartEntity> getAllCarts() {
         return cartMapper.selectAllCarts();
     }
+
+
 
     public int plus(CartEntity cart, int quantity, int index) throws IllegalArgumentException {
         final int Max_Quantity = 50;

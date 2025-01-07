@@ -279,7 +279,13 @@ function calculateTotal() {
 
         function updateUI(totalPrice) {
             const priceText = `${totalPrice.toLocaleString()} 원`;
-            const buttonText = totalPrice > 0 ? `${priceText} 주문하기` : "상품을 선택해주세요";
+            // 로그인 여부 확인
+            const isLoggedIn = document.querySelector('a[href="/member/login"]') === null;
+
+            // 로그인 상태에 따라 버튼 텍스트 설정
+            const buttonText = isLoggedIn
+                ? (totalPrice > 0 ? `${priceText} 주문하기` : "상품을 선택해주세요")
+                : "로그인";
 
             document.querySelector('.pay > .price').innerText = priceText;
             document.querySelector('.total-pay > .price').innerText = priceText;
@@ -309,9 +315,10 @@ function calculateTotal() {
     function updatePayButtonState() {
         const $hasItems = document.querySelectorAll('.item').length > 0;
         const $hasCheckedItems = Array.from(document.querySelectorAll('.checkbox')).some(checkbox => checkbox.checked);
+        const isLoggedIn = document.querySelector('a[href="/member/login"]') === null;
 
         // 버튼 상태 즉시 업데이트
-        if ($hasCheckedItems && $hasItems) {
+        if ($hasCheckedItems && $hasItems && isLoggedIn) {
             $deleteButton.classList.remove('no-deleteButton');
             $payButton.classList.remove('disabled');
             $deleteButton.disabled = false;
@@ -339,7 +346,7 @@ function calculateTotal() {
             const hasCheckedItems = response['hasCheckedItems'];
 
             // 선택 삭제 버튼 상태, 결제 버튼 상태
-            if (hasCheckedItems && hasItems) {
+            if (hasCheckedItems && hasItems && isLoggedIn) {
                 $deleteButton.classList.remove('no-deleteButton');
                 $payButton.classList.remove('disabled');
                 $deleteButton.disabled = false;

@@ -25,8 +25,15 @@ public class CartController {
     @RequestMapping(value = "/in", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getCartIndex(@SessionAttribute(value = "member", required = false) MemberEntity member) {
         ModelAndView mav = new ModelAndView();
+        // 로그인 상태가 아닐 때
+        if (member == null) {
+            mav.addObject("items", null);
+            mav.addObject("message", "장바구니에 담긴 상품이 없습니다.");
+            mav.setViewName("cart/cart-in");
+            return mav;
+        }
         // 장바구니 아이템 조회
-        List<CartEntity> items = this.cartService.getAllCarts();
+        List<CartEntity> items = this.cartService.getCartsByMemberId(member.getId());
         boolean hasUncheckedItems = items.stream().anyMatch(item -> item.getIsChecked() == 0);
         mav.addObject("member", member);
         mav.addObject("items", items);
