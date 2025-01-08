@@ -218,11 +218,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const isAllChecked = response['isAllChecked'];
             const isDeliveryChecked = response['isDeliveryChecked'];
 
-            itemCheckboxes.forEach((checkbox, index) => {
-                checkbox.checked = checkboxStatus[index] || false;
+            document.querySelectorAll('.checkbox').forEach(checkbox => {
+                const index = checkbox.dataset.index;
+                if (checkboxStatus[index] !== undefined) {
+                    checkbox.checked = checkboxStatus[index];
+                }
             });
             allSelectCheckbox.checked = isAllChecked;
             deliveryCheckbox.checked = isDeliveryChecked;
+
+            // 전체 선택 및 샛별배송 체크박스 상태 동기화
+            syncCheckboxes();
 
             calculateTotal(); // 초기 총합 계산
         };

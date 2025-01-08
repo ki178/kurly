@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/cart")
@@ -148,9 +150,9 @@ public class CartController {
         boolean isDeliveryChecked = items.stream().allMatch(item -> item.getIsChecked() == 1);
 
         // 개별 체크박스 상태 리스트 생성
-        List<Boolean> checkboxStatus = items.stream()
-                .map(item -> item.getIsChecked() == 1)
-                .toList();
+        // 개별 체크박스 상태를 index 기준으로 반환
+        Map<Integer, Boolean> checkboxStatus = items.stream()
+                .collect(Collectors.toMap(CartEntity::getIndex, item -> item.getIsChecked() == 1));
 
         response.put("isAllChecked", isAllChecked);
         response.put("isDeliveryChecked", isDeliveryChecked);
