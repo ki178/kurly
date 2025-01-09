@@ -26,11 +26,7 @@
 <body th:if="${member != null}">
 <div th:replace="~{/fragments/header :: headerFragment}"></div>
 
-<div>
-    <div>
-        <div style="z-index: 1;"></div>
-        <div></div>
-        <div id="main">
+<div id="main">
             <div class="pay-order">
                 <h2 class="_text">주문서</h2>
                 <div class="purchase-order">
@@ -44,7 +40,9 @@
                                 <div>
                                     <div class="space"></div>
                                     <li class="item" th:each="item : ${items}">
-                                        <input class="id" name="itemId" th:value="${item.getItemId()}" style="display: none">
+                                        <label>
+                                            <input class="id" name="itemId" th:value="${item.getItemId()}" style="display: none">
+                                        </label>
                                         <div class="image-container">
                                             <span style="box-sizing: border-box; display: block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0; margin: 0; padding: 0; position: absolute; inset: 0;">
                                                 <img alt=""
@@ -233,9 +231,6 @@
                 </div>
             </div>
         </div>
-        <div class="bottom"></div>
-    </div>
-</div>
 
 <div th:replace="~{/fragments/footer :: footerFragment}"></div>
 </body>

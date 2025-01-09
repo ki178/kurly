@@ -22,7 +22,7 @@
                 </a>
                 <div class="menu member">
                     <a th:href="@{/admin/}" th:if="${member.isAdmin()}" href="#" class="item1">관리자페이지</a>
-                    <a href="#" class="item1">주문내역</a>
+                    <a th:href="@{/mypage/pay-record}" class="item1">주문내역</a>
                     <a th:href="@{/mypage/info}" class="item1">개인정보 수정</a>
                     <a th:href="@{/member/logout}" class="item1" id="logout">로그아웃</a>
                 </div>

@@ -1,9 +1,11 @@
 package com.bhs.sssss.controllers;
 
 import com.bhs.sssss.entities.MemberEntity;
+import com.bhs.sssss.entities.PayLoadEntity;
 import com.bhs.sssss.results.CommonResult;
 import com.bhs.sssss.results.Result;
 import com.bhs.sssss.services.MemberService;
+import com.bhs.sssss.services.PayService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
@@ -18,14 +20,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @Controller
 @RequestMapping(value = "/mypage")
 public class MypageController {
     private final MemberService memberService;
+    private final PayService payService;
 
     @Autowired
-    public MypageController(MemberService memberService) {
+    public MypageController(MemberService memberService, PayService payService) {
         this.memberService = memberService;
+        this.payService = payService;
     }
 
     @RequestMapping(value = "/info", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
@@ -97,6 +106,18 @@ public class MypageController {
         modelAndView.addObject("member", member);
         modelAndView.setViewName("mypage/pick");
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/pay-record", method = RequestMethod.GET)
+    public ModelAndView getRecord(@SessionAttribute(value = "member", required = false) MemberEntity member) {
+        ModelAndView mav = new ModelAndView();
+        Map<LocalDateTime, List<PayLoadEntity>> groupedItems = this.payService.getAllPayByCartId().stream()
+                .collect(Collectors.groupingBy(PayLoadEntity::getPurchaseDay));
+
+        mav.addObject("member", member);
+        mav.addObject("items", groupedItems);
+        mav.setViewName("/mypage/pay-record");
+        return mav;
     }
 
 }

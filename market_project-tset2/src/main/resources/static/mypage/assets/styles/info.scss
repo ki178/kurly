@@ -99,7 +99,7 @@ body{
         flex-direction: column;
         align-items: flex-start;
 
-        > .menu {
+        > a > .menu {
           display: flex;
           flex-direction: row;
           min-width: 100%;

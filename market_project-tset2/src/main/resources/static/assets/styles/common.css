@@ -597,6 +597,7 @@ body > .top > .header > .header-wrapper > .fixed-search > form > label {
   border: none;
   background-color: rgb(242, 242, 242);
   margin-left: 1.5rem;
+  box-sizing: content-box;
 }
 body > .top > .header > .header-wrapper > .fixed-search > form > label:focus-within {
   background-color: #ffffff;
@@ -676,6 +677,7 @@ body > .top > .header > .header-wrapper > .icon-container.fixed {
   background-color: #ffffff;
   user-select: none;
   cursor: default;
+  box-sizing: content-box;
   z-index: 999;
 }
 .icon-container > .icon1:hover > .submenu > p {

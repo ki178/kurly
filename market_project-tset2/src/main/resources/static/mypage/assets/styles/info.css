@@ -85,7 +85,7 @@ body {
   flex-direction: column;
   align-items: flex-start;
 }
-#main > .left > .bookmark-section > .bookmark-wrapper > .menu {
+#main > .left > .bookmark-section > .bookmark-wrapper > a > .menu {
   display: flex;
   flex-direction: row;
   min-width: 100%;
@@ -98,10 +98,10 @@ body {
   line-height: 1.125rem;
   cursor: pointer;
 }
-#main > .left > .bookmark-section > .bookmark-wrapper > .menu > svg {
+#main > .left > .bookmark-section > .bookmark-wrapper > a > .menu > svg {
   margin-right: 0.5rem;
 }
-#main > .left > .bookmark-section > .bookmark-wrapper > .menu > .text {
+#main > .left > .bookmark-section > .bookmark-wrapper > a > .menu > .text {
   display: flex;
   gap: 0.125rem;
 }

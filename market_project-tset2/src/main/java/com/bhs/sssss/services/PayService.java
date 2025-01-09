@@ -60,7 +60,6 @@ public class PayService {
                 item.setMemberId(member.getId());
                 item.setPurchaseDay(LocalDateTime.now());
 
-
                 this.payMapper.insertItemLoad(item);
             }
             return true;

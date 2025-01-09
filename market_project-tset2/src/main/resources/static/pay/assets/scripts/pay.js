@@ -72,7 +72,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = JSON.parse(xhr.responseText);
             if (response.status === 'success') {
                 alert(response.message);
-                window.location.href = './record';
+                const url = new URL(location.href);
+                url.pathname = '/mypage/pay-record';
+                window.location.href = url.toString();
             } else {
                 alert(response.message);
             }

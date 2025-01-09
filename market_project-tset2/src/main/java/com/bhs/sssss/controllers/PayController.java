@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -81,15 +80,4 @@ public class PayController {
     }
 
 
-    @RequestMapping(value = "/record", method = RequestMethod.GET)
-    public ModelAndView getRecord() {
-        ModelAndView mav = new ModelAndView();
-        Map<LocalDateTime, List<PayLoadEntity>> groupedItems = this.payService.getAllPayByCartId().stream()
-                .collect(Collectors.groupingBy(PayLoadEntity::getPurchaseDay));
-
-        mav.addObject("items", groupedItems);
-        mav.setViewName("pay/pay-record");
-        return mav;
-
-    }
 }

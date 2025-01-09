@@ -4,6 +4,7 @@
 
 
 #main {
+
   & > div {
     padding-top: 50px;
   }
@@ -21,10 +22,12 @@
     margin: 0 auto;
 
     > ._text {
+      display: block;
       padding-bottom: 2px;
       font-size: 30px;
       line-height: 5px;
       text-align: center;
+      margin: 2rem 0 2rem 0;
     }
 
     > .purchase-order {
@@ -67,7 +70,6 @@
             line-height: 2px;
             font-weight: 600;
             font-size: 14px;
-            margin-left: 38px;
           }
 
           > .line {
@@ -659,11 +661,13 @@
 #price-final {
   position: relative;
   width: 284px;
+  box-sizing: border-box;
 
   > .price-final-box {
     position: absolute;
     width: 284px;
     top: 0;
+    box-sizing: border-box;
 
     > .price-text-cover {
       display: flex;
@@ -730,6 +734,7 @@
         font-size: 14px;
         color: rgb(153, 153, 153);
 
+
         > .--price-text {
           display: -webkit-box;
           display: -webkit-flex;
@@ -742,6 +747,7 @@
         }
 
         > div {
+
           > .total-price {
             font-size: 14px;
           }

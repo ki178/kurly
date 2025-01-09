@@ -6,12 +6,13 @@
 #pay-record {
   display: flex;
   align-items: flex-start;
-  gap: 24px;
   -webkit-box-pack: center;
   justify-content: center;
-  padding: 50px 0 80px;
   margin: 0 auto;
   background-color: #F2F5F8;
+  height: 52rem;
+  overflow-y: scroll;
+  scrollbar-width: thin;
 
   > .pay-record-box {
     overflow: hidden;
@@ -74,6 +75,10 @@
           }
         }
 
+        > div:last-of-type {
+          margin-bottom: 0;
+        }
+
         > .item-container {
           display: grid;
           -webkit-box-align: center;
@@ -85,8 +90,8 @@
           background-color: #fff;
           margin-top: 16px;
           margin-bottom: 16px;
-          border-radius: 16px;
           padding: 16px 16px 20px;
+          border-radius: 1rem;
 
           >.purchase-day{
             position: relative;

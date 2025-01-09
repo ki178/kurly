@@ -617,6 +617,7 @@ body {
             border: none;
             background-color: rgb(242, 242, 242);
             margin-left: 1.5rem;
+            box-sizing: content-box;
 
             &:focus-within {
               background-color: #ffffff;
@@ -702,6 +703,7 @@ body {
         background-color: #ffffff;
         user-select: none;
         cursor: default;
+        box-sizing: content-box;
         z-index: 999;
 
         > p {
