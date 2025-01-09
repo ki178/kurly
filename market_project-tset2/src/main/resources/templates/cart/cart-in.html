@@ -101,7 +101,7 @@
                                         <div class="item-check-box">
                                             <div class="checkbox-cover">
                                                 <label class="checkbox-label --label">
-                                                    <input name="check" class="checkbox" type="checkbox" th:checked="${item.isChecked == 1}" th:data-index="${item.getIndex()}">
+                                                    <input name="check" class="checkbox" type="checkbox" th:checked="${item.isChecked == 1}">
                                                     <div class="label-cover --div"></div>
                                                     <p class="checkbox_text"></p>
                                                 </label>
@@ -159,9 +159,8 @@
                                                                     src="data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%2764%27%20height=%2783%27/%3e"
                                                                     style="display: block; max-width: 100%; width: initial; height: initial; background: none; opacity: 1; border: 0; margin: 0; padding: 0;">
                                                            </span>
-                                                           <img class="img"
+                                                           <img th:alt="${item.getItemName()}" class="img"
                                                                 th:src="@{${item.getItemImage()}}"
-                                                                th:alt="${item.getItemName()}"
                                                                 decoding="async" data-nimg="intrinsic"
                                                                 style="position: absolute; inset: 0; box-sizing: border-box; padding: 0; border: none; margin: auto; display: block; width: 0; height: 0; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%; object-fit: cover;">
                                                        </span>
@@ -269,7 +268,6 @@
                                     로그인
                                 </button>
                             </a>
-
                         </div>
                     </div>
                 </div>

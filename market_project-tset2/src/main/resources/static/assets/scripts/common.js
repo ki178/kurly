@@ -1,4 +1,4 @@
-
+// 자동 배너 구현
 window.addEventListener("scroll", (e) => {
     const $nav = document.getElementById('nav');
     const $notice = $nav.querySelector(':scope > .header-wrapper > div > .notice');
@@ -20,7 +20,6 @@ window.addEventListener("scroll", (e) => {
     }
 });
 
-
 HTMLElement.prototype.hide = function () {
     this.classList.remove('-visible');
     return this;
@@ -31,6 +30,7 @@ HTMLElement.prototype.show = function () {
     return this;
 }
 
+//region Dialog 구현
 class Dialog {
     /** @type {HTMLElement} */
     static $cover;
@@ -183,7 +183,182 @@ class Dialog2 {
     }
 }
 
+// 카트 담기 눌렀을때 다이얼로그 창
+class CartDialog {
+    /** @type {HTMLElement} */
+    static $cover;
+    /** @type {Array<HTMLElement>} */
+    static $dialogArray = [];
 
+    /**
+     * @param {HTMLElement} $dialog
+     */
+    static hide($dialog) {
+        CartDialog.$dialogArray.splice(CartDialog.$dialogArray.indexOf($dialog), 1);
+        if (CartDialog.$dialogArray.length === 0) {
+            CartDialog.$cover.hide();
+        }
+        $dialog.hide();
+        setTimeout(() => $dialog.remove(), 1000);
+    }
+
+    /**
+     * @param {Object} args
+     * @param {string} args.img
+     * @param {string} args.title
+     * @param {string} args.content
+     * @param {string} args.salesPrice
+     * @param {string} args.price
+     * @param {string} args.total
+     * @param {string} args.totalPrice
+     * @param {Array<{text: string, onclick: function}>|undefined} args.buttons
+     * @param {number} delay
+     * @returns {HTMLElement}
+     */
+    static show(args, delay = 50) {
+        const $dialog = document.createElement('div');
+        $dialog.classList.add('---cartDialog');
+        const $div1 = document.createElement('div');
+        $div1.classList.add('_div1');
+        const $div11 = document.createElement('div');
+        $div11.classList.add('_div11');
+        const $span = document.createElement('span');
+        $span.classList.add('_span');
+        const $img = document.createElement('img');
+        $img.classList.add('_image');
+        $img.src = args.img;
+        $span.append($img);
+        $div11.append($span);
+        const $title = document.createElement('span');
+        $title.classList.add('_title');
+        $title.innerHTML = args.title;
+        $div1.append($div11);
+        $div1.append($title);
+        $dialog.append($div1);
+
+        const $div2 = document.createElement('div');
+        $div2.classList.add('_div2');
+        const $content = document.createElement('span');
+        $content.classList.add('_content');
+        $content.innerHTML = args.content;
+
+        const $div20 = document.createElement('div');
+        $div20.classList.add('_div20');
+        const $div22 = document.createElement('div');
+        $div22.classList.add('_div22');
+        const $price = document.createElement('span');
+        $price.classList.add('_price');
+        $price.innerHTML = args.price;
+        const $salesPrice = document.createElement('span');
+        $salesPrice.classList.add('_salesPrice');
+        $salesPrice.innerHTML = args.salesPrice;
+        $div22.append($salesPrice);
+        $div22.append($price);
+
+        const $div23 = document.createElement('div');
+        $div23.classList.add('_div23');
+        const $minus = document.createElement('button');
+        $minus.classList.add('_minus');
+        const $plus = document.createElement('button');
+        $plus.classList.add('_plus');
+        const $count = document.createElement('div');
+        $count.classList.add('_count');
+        $count.innerHTML = '1';
+        $div23.append($minus);
+        $div23.append($count);
+        $div23.append($plus);
+
+        $div20.append($div22);
+        $div20.append($div23);
+        $div2.append($content);
+        $div2.append($div20);
+        $dialog.append($div2);
+
+        const $div3 = document.createElement('div');
+        $div3.classList.add('_div3');
+        const $total = document.createElement('span');
+        $total.classList.add('_total');
+        $total.innerHTML = args.total;
+        const $totalPrice = document.createElement('span');
+        $totalPrice.classList.add('_totalPrice');
+        $totalPrice.innerHTML = args.totalPrice;
+        $div3.append($total);
+        $div3.append($totalPrice);
+        $dialog.append($div3);
+
+        if (args.buttons != null && args.buttons.length > 0) {
+            const $buttonContainer = document.createElement(('div'));
+            $buttonContainer.classList.add('_button-container');
+            $buttonContainer.style.gridTemplateColumns = `repeat(${args.buttons.length}, 1fr)`;
+            for (const button of args.buttons) {
+                const $button = document.createElement('button');
+                $button.classList.add('_button');
+                if (button.text === '장바구니 담기') {
+                    $button.classList.add('--obj-button');
+                    $button.classList.add('--color-primary');
+                }
+                $button.setAttribute('type', 'button');
+                $button.innerText = button.text;
+                if (typeof button.onclick === 'function') {
+                    $button.onclick = () => button.onclick($dialog);
+                }
+                $buttonContainer.append($button);
+            }
+            $dialog.append($buttonContainer);
+        }
+        document.body.prepend($dialog);
+        CartDialog.$dialogArray.push($dialog);
+        if (CartDialog.$cover == null) {
+            const $cover = document.createElement('div');
+            $cover.classList.add('---cartDialog-cover');
+            document.body.prepend($cover);
+            CartDialog.$cover = $cover;
+        }
+        setTimeout(() => {
+            $dialog.show();
+            CartDialog.$cover.show();
+        }, delay);
+        return $dialog;
+    }
+
+    // 수량증감
+    static plusMinus = () => {
+        const $div23 = document.querySelector('.---cartDialog > ._div2 > ._div20 > ._div23');
+        const $minusButton = $div23.querySelector('._minus');
+        const $count = $div23.querySelector('._count');
+        const $plusButton = $div23.querySelector('._plus');
+        const $totalPrice = document.querySelector('.---cartDialog > ._div3 > ._totalPrice');
+        const $realPrice = document.querySelector('.---cartDialog > ._div2 > ._div20 > ._div22 > ._salesPrice');
+        let i = parseInt($count.innerText);
+        let j = parseInt($realPrice.innerText.replaceAll(',', ''));
+
+        $plusButton.onclick = () => {
+            i += 1;
+            $count.innerHTML = `${i}`;
+            $minusButton.style.backgroundImage = 'url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0yMCAxNHYySDEwdi0yeiIgZmlsbD0iIzMzMyIgZmlsbC1ydWxlPSJub256ZXJvIi8+Cjwvc3ZnPgo=)';
+            $minusButton.style.userSelect = 'pointer';
+            $minusButton.style.pointerEvents = 'all';
+            $totalPrice.innerHTML = (i*j).toLocaleString();
+        };
+
+        $minusButton.onclick = () => {
+            if(i > 1){
+                i -= 1;
+            }
+            $count.innerHTML = `${i}`;
+            if(i === 1) {
+                $minusButton.style.backgroundImage = 'url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCAzMCAzMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0yMCAxNHYySDEwdi0yeiIgZmlsbD0iI0RERCIgZmlsbC1ydWxlPSJub256ZXJvIi8+Cjwvc3ZnPgo=)';
+                $minusButton.style.userSelect = 'none';
+                $minusButton.style.pointerEvents = 'none';
+            }
+            $totalPrice.innerHTML = (i*j).toLocaleString();
+        }
+    };
+}
+//endregion
+
+
+//region 카테고리 띄우기
 const $category = document.querySelector('#nav > .header-wrapper > .category');
 const $categoryMenu = $category.querySelector(':scope > .category-container > .category-menu');
 const $menu = $category.querySelector(':scope > .category-container > .category-menu > .menu');
@@ -265,6 +440,7 @@ setTimeout(() => {
 
     }));
 }, 100);
+//endregion
 
 
 const $pickButton = document.getElementById('pick-button');

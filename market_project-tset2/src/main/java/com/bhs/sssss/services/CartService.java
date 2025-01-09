@@ -1,10 +1,18 @@
 package com.bhs.sssss.services;
 
 import com.bhs.sssss.entities.CartEntity;
+import com.bhs.sssss.entities.ItemEntity;
+import com.bhs.sssss.entities.MemberEntity;
+import com.bhs.sssss.exceptions.TransactionalException;
 import com.bhs.sssss.mappers.CartMapper;
+import com.bhs.sssss.mappers.ItemMapper;
 import com.bhs.sssss.mappers.MemberMapper;
+import com.bhs.sssss.results.CommonResult;
+import com.bhs.sssss.results.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,16 +20,22 @@ import java.util.List;
 public class CartService {
     private final CartMapper cartMapper;
     private final MemberMapper memberMapper;
+    private final ItemMapper itemMapper;
 
     @Autowired
-    public CartService(CartMapper cartMapper, MemberMapper memberMapper) {
+    public CartService(CartMapper cartMapper, MemberMapper memberMapper, ItemMapper itemMapper) {
         this.cartMapper = cartMapper;
         this.memberMapper = memberMapper;
+        this.itemMapper = itemMapper;
     }
 
 
     public List<CartEntity> getCartsByMemberId(String memberId) {
         return this.cartMapper.selectCartsByMemberId(memberId);
+    }
+
+    public int getCartsCountByMemberId(String memberId) {
+        return this.cartMapper.selectCountCartsByMemberId(memberId);
     }
 
     public List<CartEntity> getAllCarts() {
@@ -120,6 +134,47 @@ public class CartService {
 
     public boolean hasCheckedItems() {
         return cartMapper.countCheckedItems() > 0;
+    }
+
+    @Transactional
+    public Result postCart(MemberEntity member, int quantity, String itemId){
+        if(member == null || itemId == null) {
+            return CommonResult.FAILURE;
+        }
+        if(quantity <= 0) {
+            quantity = 1;
+        }
+        if(this.cartMapper.selectCartById(Integer.parseInt(itemId)) != null) {
+            CartEntity cart = this.cartMapper.selectCartById(Integer.parseInt(itemId));
+            cart.setQuantity(cart.getQuantity() + quantity);
+            if(this.cartMapper.updateCartByQuantity(cart) == 0) {
+                throw new TransactionalException();
+            }
+        } else {
+            ItemEntity item = this.itemMapper.selectItemByItemId(itemId);
+            int price = Integer.parseInt(item.getSalesPrice().replaceAll(",", ""));
+            MemberEntity dbMember = this.memberMapper.selectUserById(member.getId());
+
+            System.out.println(dbMember.getCartId());
+
+            CartEntity cartItem = new CartEntity();
+            cartItem.setMemberId(dbMember.getId());
+            cartItem.setCartId(dbMember.getCartId());
+            cartItem.setItemId(item.getItemId());
+            cartItem.setItemName(item.getItemTitle());
+            cartItem.setItemPrice(price);
+            cartItem.setQuantity(quantity);
+            cartItem.setIsChecked(1);
+            cartItem.setDeleted(false);
+            cartItem.setStatus(Integer.parseInt(item.getItemStatus()));
+            cartItem.setItemImage(item.getItemImage());
+
+            if(this.cartMapper.insertCart(cartItem) == 0) {
+                throw new TransactionalException();
+            }
+        }
+
+        return CommonResult.SUCCESS;
     }
 
 }

@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+* {
+  user-select: none;
+}
+
 #main {
   > .first-container,
   > .second-container,
@@ -508,3 +512,4 @@
     }
   }
 }
+

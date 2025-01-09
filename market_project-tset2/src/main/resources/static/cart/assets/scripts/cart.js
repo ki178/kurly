@@ -224,6 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     checkbox.checked = checkboxStatus[index];
                 }
             });
+
             allSelectCheckbox.checked = isAllChecked;
             deliveryCheckbox.checked = isDeliveryChecked;
 
@@ -315,16 +316,44 @@ function calculateTotal() {
 }
 
 
-    const $payButton = document.querySelector('.pay-button');
-    const $deleteButton = document.querySelector('.delete-button');
+const $payButton = document.querySelector('.pay-button');
+const $deleteButton = document.querySelector('.delete-button');
 
-    function updatePayButtonState() {
-        const $hasItems = document.querySelectorAll('.item').length > 0;
-        const $hasCheckedItems = Array.from(document.querySelectorAll('.checkbox')).some(checkbox => checkbox.checked);
-        const isLoggedIn = document.querySelector('a[href="/member/login"]') === null;
+function updatePayButtonState() {
+    const $hasItems = document.querySelectorAll('.item').length > 0;
+    const $hasCheckedItems = Array.from(document.querySelectorAll('.checkbox')).some(checkbox => checkbox.checked);
+    const isLoggedIn = document.querySelector('a[href="/member/login"]') === null;
 
-        // 버튼 상태 즉시 업데이트
-        if ($hasCheckedItems && $hasItems && isLoggedIn) {
+    // 버튼 상태 즉시 업데이트
+    if ($hasCheckedItems && $hasItems && isLoggedIn) {
+        $deleteButton.classList.remove('no-deleteButton');
+        $payButton.classList.remove('disabled');
+        $deleteButton.disabled = false;
+        $payButton.disabled = false;
+    } else {
+        $deleteButton.classList.add('no-deleteButton');
+        $payButton.classList.add('disabled');
+        $deleteButton.disabled = true;
+        $payButton.disabled = true;
+    }
+
+
+    // 서버에 상태 요청 (비동기)
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState !== XMLHttpRequest.DONE) {
+            return;
+        }
+        if (xhr.status < 200 || xhr.status >= 300) {
+
+            return;
+        }
+        const response = JSON.parse(xhr.responseText);
+        const hasItems = response['hasItems'];
+        const hasCheckedItems = response['hasCheckedItems'];
+
+        // 선택 삭제 버튼 상태, 결제 버튼 상태
+        if (hasCheckedItems && hasItems && isLoggedIn) {
             $deleteButton.classList.remove('no-deleteButton');
             $payButton.classList.remove('disabled');
             $deleteButton.disabled = false;
@@ -337,76 +366,48 @@ function calculateTotal() {
         }
 
 
-        // 서버에 상태 요청 (비동기)
-        const xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState !== XMLHttpRequest.DONE) {
-                return;
-            }
-            if (xhr.status < 200 || xhr.status >= 300) {
+    };
+    xhr.open('GET', '/cart/getCartStatus');
+    xhr.send()
+}
 
-                return;
-            }
-            const response = JSON.parse(xhr.responseText);
-            const hasItems = response['hasItems'];
-            const hasCheckedItems = response['hasCheckedItems'];
+function onCheckboxChange() {
+    sendCheckboxStatus(this); // 체크박스 상태 서버 전송
+    updatePayButtonState();   // 버튼 상태 업데이트
+    calculateTotal();         // 총합 계산
+}
 
-            // 선택 삭제 버튼 상태, 결제 버튼 상태
-            if (hasCheckedItems && hasItems && isLoggedIn) {
-                $deleteButton.classList.remove('no-deleteButton');
-                $payButton.classList.remove('disabled');
-                $deleteButton.disabled = false;
-                $payButton.disabled = false;
-            } else {
-                $deleteButton.classList.add('no-deleteButton');
-                $payButton.classList.add('disabled');
-                $deleteButton.disabled = true;
-                $payButton.disabled = true;
-            }
-
-
-        };
-        xhr.open('GET', '/cart/getCartStatus');
-        xhr.send()
-    }
-
-    function onCheckboxChange() {
-        sendCheckboxStatus(this); // 체크박스 상태 서버 전송
-        updatePayButtonState();   // 버튼 상태 업데이트
-        calculateTotal();         // 총합 계산
-    }
-
-    // 초기 상태 업데이트
-    function initializeCart(){
-        calculateTotal();
-        updatePayButtonState()
-    }
-    // 체크박스 및 삭제 버튼에 이벤트 리스너 등록
-    document.querySelectorAll('.checkbox').forEach((checkbox) => {
-        checkbox.removeEventListener('change', onCheckboxChange);
-        checkbox.addEventListener('change', onCheckboxChange);
-        checkbox.addEventListener('change', () => {
-            sendCheckboxStatus(checkbox);
-            updatePayButtonState();
-            initializeCart();
-        });
-    });
-    updatePayButtonState(); // 버튼 상태 초기화
-    calculateTotal();       // 총합 초기화
-    document.querySelectorAll('.cancel-button').forEach((button) => {
-        button.addEventListener('click', initializeCart);
-    });
-
-    // 버튼 클릭 이벤트
-    $payButton.addEventListener('click', () => {
-        if (!$payButton.disabled) {
-            window.location.href = '/pay/';
-        }
-    });
-    //초기화 호출
-    document.addEventListener('DOMContentLoaded', () => {
+// 초기 상태 업데이트
+function initializeCart(){
+    calculateTotal();
+    updatePayButtonState()
+}
+// 체크박스 및 삭제 버튼에 이벤트 리스너 등록
+document.querySelectorAll('.checkbox').forEach((checkbox) => {
+    checkbox.removeEventListener('change', onCheckboxChange);
+    checkbox.addEventListener('change', onCheckboxChange);
+    checkbox.addEventListener('change', () => {
+        sendCheckboxStatus(checkbox);
+        updatePayButtonState();
         initializeCart();
     });
+});
+updatePayButtonState(); // 버튼 상태 초기화
+calculateTotal();       // 총합 초기화
+document.querySelectorAll('.cancel-button').forEach((button) => {
+    button.addEventListener('click', initializeCart);
+});
+
+// 버튼 클릭 이벤트
+$payButton.addEventListener('click', () => {
+    if (!$payButton.disabled) {
+        window.location.href = '/pay/';
+    }
+});
+//초기화 호출
+document.addEventListener('DOMContentLoaded', () => {
+    initializeCart();
+});
 
 
 // 플러스와 마이너스 총괄 관리

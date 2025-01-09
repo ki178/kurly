@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface ItemMapper {
 
+    ItemEntity selectItemByItemId(@Param("itemId") String itemId);
+
     ItemEntity[] selectItems();
 
     ItemEntity[] selectItemsByNew(@Param("limitCount") int limitCount,

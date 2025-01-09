@@ -8,7 +8,6 @@ import java.util.List;
 
 @Mapper
 public interface CartMapper {
-
     List<CartEntity> selectCartsByMemberId(@Param("memberId") String memberId);
 
     List<CartEntity> selectAllCarts();
@@ -29,4 +28,12 @@ public interface CartMapper {
     int countActiveItems();
 
     int countCheckedItems();
+
+    int selectCountCartsByMemberId(@Param("memberId") String memberId);
+
+    CartEntity selectCartById(@Param("itemId")int itemId);
+
+    int insertCart(CartEntity cart);
+
+    int updateCartByQuantity(CartEntity cart);
 }

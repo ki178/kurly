@@ -8,6 +8,7 @@
             parameterType="com.bhs.sssss.entities.MemberEntity">
         UPDATE `kurly`.`members`
         SET `id`           = #{id},
+            `cart_id`      = #{cartId},
             `password`     = #{password},
             `user_name`    = #{userName},
             `email`        = #{email},
@@ -29,6 +30,7 @@
     <select id="selectUserByContact"
             resultType="com.bhs.sssss.entities.MemberEntity">
         SELECT `id` AS `id`,
+               `cart_id` AS `cartId`,
                `password` AS `password`,
                `user_name` AS `userName`,
                `email` AS `email`,
@@ -51,6 +53,7 @@
     <select id="selectUserById"
             resultType="com.bhs.sssss.entities.MemberEntity">
         SELECT `id` AS `id`,
+               `cart_id` AS `cartId`,
                `password` AS `password`,
                `user_name` AS `userName`,
                `email` AS `email`,
@@ -72,6 +75,7 @@
     <select id="selectUserByEmail"
             resultType="com.bhs.sssss.entities.MemberEntity">
         SELECT `id` AS `id`,
+               `cart_id` AS `cartId`,
                `password` AS `password`,
                `user_name` AS `userName`,
                `email` AS `email`,
@@ -94,6 +98,7 @@
     <select id="selectUserByNameAndEmail"
             resultType="com.bhs.sssss.entities.MemberEntity">
         SELECT `id`           AS `id`,
+               `cart_id`      AS `cartId`,
                `password`     AS `password`,
                `user_name`    AS `userName`,
                `email`        AS `email`,
@@ -130,6 +135,7 @@
     <select id="selectMembers"
             resultType="com.bhs.sssss.entities.MemberEntity">
         SELECT `id`           AS `id`,
+               `cart_id` AS `cartId`,
                `password`     AS `password`,
                `user_name`    AS `userName`,
                `email`        AS `email`,
@@ -150,6 +156,7 @@
     <select id="selectMembersBySearch"
             resultType="com.bhs.sssss.entities.MemberEntity">
         SELECT `id`           AS `id`,
+               `cart_id` AS `cartId`,
                `password`     AS `password`,
                `user_name`    AS `userName`,
                `email`        AS `email`,
@@ -173,6 +180,7 @@
     <select id="selectUserByIdIncludeDeleted"
             resultType="com.bhs.sssss.entities.MemberEntity">
         SELECT `id` AS `id`,
+               `cart_id` AS `cartId`,
                `password` AS `password`,
                `user_name` AS `userName`,
                `email` AS `email`,
@@ -194,8 +202,8 @@
 
     <insert id="insertMember"
             parameterType="com.bhs.sssss.entities.MemberEntity">
-        INSERT INTO `kurly`.`members` (`id`, `password`, `user_name`, `email`, `contact`, `address`, `gender`, `birth`, `created_at`, `updated_at`, `deleted_at`, `is_admin`, `is_suspended`, `is_verified`)
-        VALUES (#{id}, #{password}, #{userName}, #{email}, #{contact}, #{address}, #{gender}, #{birth}, #{createdAt}, #{updatedAt}, #{deletedAt}, #{isAdmin}, #{isSuspended}, #{isVerified})
+        INSERT INTO `kurly`.`members` (`id`, `cart_id`, `password`, `user_name`, `email`, `contact`, `address`, `gender`, `birth`, `created_at`, `updated_at`, `deleted_at`, `is_admin`, `is_suspended`, `is_verified`)
+        VALUES (#{id}, #{cartId}, #{password}, #{userName}, #{email}, #{contact}, #{address}, #{gender}, #{birth}, #{createdAt}, #{updatedAt}, #{deletedAt}, #{isAdmin}, #{isSuspended}, #{isVerified})
     </insert>
 
 

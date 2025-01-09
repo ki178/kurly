@@ -52,6 +52,10 @@
                             </div>
                             <div class="product-info">
                                 <h3 class="product-name" th:text="${item.getItemTitle()}"></h3>
+                                <label>
+                                    <input type="hidden" class="item-id" name="item-id" th:value="${item.getItemId()}">
+                                    <input type="hidden" class="item-status" name="item-status" th:value="${item.getItemStatus()}">
+                                </label>
                                 <div class="content-row">
                                     <div class="product-price discount-price">
                                         <div>

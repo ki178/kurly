@@ -1,9 +1,11 @@
 package com.bhs.sssss.controllers;
 
+import com.bhs.sssss.entities.CartEntity;
 import com.bhs.sssss.entities.EmailTokenEntity;
 import com.bhs.sssss.entities.MemberEntity;
 import com.bhs.sssss.results.CommonResult;
 import com.bhs.sssss.results.Result;
+import com.bhs.sssss.services.CartService;
 import com.bhs.sssss.services.MemberService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,15 +21,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 
 @Controller
 @RequestMapping(value = "/member")
 public class MemberController {
     private final MemberService memberService;
+    private final CartService cartService;
 
     @Autowired
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, CartService cartService) {
         this.memberService = memberService;
+        this.cartService = cartService;
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)

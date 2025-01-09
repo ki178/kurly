@@ -16,6 +16,8 @@
                `price`         AS `price`,
                `sales_price`   AS `salesPrice`,
                `item_category` AS `itemCategory`,
+               `item_status`   AS `itemStatus`,
+               `item_stock`    AS `itemStock`,
                `created_at`    AS `createdAt`,
                `deleted_at`    AS `deletedAt`
         FROM `kurly`.`items`
@@ -65,6 +67,8 @@
                `price`         AS `price`,
                `sales_price`   AS `salesPrice`,
                `item_category` AS `itemCategory`,
+               `item_status`   AS `itemStatus`,
+               `item_stock`    AS `itemStock`,
                `created_at`    AS `createdAt`,
                `deleted_at`    AS `deletedAt`
         FROM `kurly`.`items`
@@ -85,6 +89,8 @@
                `price`         AS `price`,
                `sales_price`   AS `salesPrice`,
                `item_category` AS `itemCategory`,
+               `item_status`   AS `itemStatus`,
+               `item_stock`    AS `itemStock`,
                `created_at`    AS `createdAt`,
                `deleted_at`    AS `deletedAt`
         FROM `kurly`.`items`
@@ -106,6 +112,8 @@
                `price`         AS `price`,
                `sales_price`   AS `salesPrice`,
                `item_category` AS `itemCategory`,
+               `item_status`   AS `itemStatus`,
+               `item_stock`    AS `itemStock`,
                `created_at`    AS `createdAt`,
                `deleted_at`    AS `deletedAt`
         FROM `kurly`.`items`
@@ -127,6 +135,8 @@
                `price`         AS `price`,
                `sales_price`   AS `salesPrice`,
                `item_category` AS `itemCategory`,
+               `item_status`   AS `itemStatus`,
+               `item_stock`    AS `itemStock`,
                `created_at`    AS `createdAt`,
                `deleted_at`    AS `deletedAt`
         FROM `kurly`.`items`
@@ -134,5 +144,27 @@
           AND `item_title` LIKE CONCAT('%', #{keyword}, '%')
         ORDER BY `index` DESC
         LIMIT #{limitCount} OFFSET #{offsetCount}
+    </select>
+
+    <select id="selectItemByItemId"
+            resultType="com.bhs.sssss.entities.ItemEntity">
+        SELECT `index`         AS `index`,
+               `item_id`       AS `itemId`,
+               `item_title`    AS `itemTitle`,
+               `sub_title`     AS `subTitle`,
+               `item_image`    AS `itemImage`,
+               `sticker`       AS `sticker`,
+               `discount_rate` AS `discountRate`,
+               `price`         AS `price`,
+               `sales_price`   AS `salesPrice`,
+               `item_category` AS `itemCategory`,
+               `item_status`   AS `itemStatus`,
+               `item_stock`    AS `itemStock`,
+               `created_at`    AS `createdAt`,
+               `deleted_at`    AS `deletedAt`
+        FROM `kurly`.`items`
+        WHERE `item_id` = #{itemId}
+          AND `deleted_at` IS NULL
+        LIMIT 1
     </select>
 </mapper>

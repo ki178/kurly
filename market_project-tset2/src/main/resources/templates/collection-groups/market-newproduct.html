@@ -399,6 +399,10 @@
                             <span class="delivery">샛별배송</span>
                             <span class="title" th:text="${item.getItemTitle()}"></span>
                             <p class="subtitle" th:text="${item.getSubTitle()}"></p>
+                            <label>
+                                <input type="hidden" class="item-id" name="item-id" th:value="${item.getItemId()}">
+                                <input type="hidden" class="item-status" name="item-status" th:value="${item.getItemStatus()}">
+                            </label>
                             <div class="discount-price">
                                 <div class="dimmed-price">
                                     <span class="price-number" th:text="${item.getPrice()}"></span>

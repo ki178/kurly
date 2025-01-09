@@ -10,8 +10,8 @@ import lombok.Setter;
 public class CartEntity {
     private int index; // 추가한 것
     private String memberId; // 추가한 것
-    private String cartId; // 추가한 것
-    private int itemId;
+    private int cartId; // 추가한 것
+    private String itemId;
     private String itemName;
     private int itemPrice;
     private String itemImage;

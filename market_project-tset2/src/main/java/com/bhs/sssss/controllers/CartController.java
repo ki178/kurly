@@ -1,8 +1,13 @@
 package com.bhs.sssss.controllers;
 
 import com.bhs.sssss.entities.CartEntity;
+import com.bhs.sssss.entities.ItemEntity;
 import com.bhs.sssss.entities.MemberEntity;
+import com.bhs.sssss.results.CommonResult;
+import com.bhs.sssss.results.Result;
 import com.bhs.sssss.services.CartService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -43,6 +48,17 @@ public class CartController {
 
         mav.setViewName("cart/cart-in");
         return mav;
+    }
+
+    @RequestMapping(value = "/in", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String PostCartIndex(@SessionAttribute(value = "member", required = false) MemberEntity member,
+                                @RequestParam(value = "quantity", required = false) int quantity,
+                                @RequestParam(value = "itemId", required = false) String itemId) {
+        Result result = this.cartService.postCart(member, quantity, itemId);
+        JSONObject response = new JSONObject();
+        response.put(Result.NAME, result.nameToLower());
+        return response.toString();
     }
 
     // 수량 증가 , 감소
@@ -149,10 +165,10 @@ public class CartController {
         // 샛별배송 체크박스 상태 설정
         boolean isDeliveryChecked = items.stream().allMatch(item -> item.getIsChecked() == 1);
 
-        // 개별 체크박스 상태 리스트 생성
         // 개별 체크박스 상태를 index 기준으로 반환
         Map<Integer, Boolean> checkboxStatus = items.stream()
                 .collect(Collectors.toMap(CartEntity::getIndex, item -> item.getIsChecked() == 1));
+
 
         response.put("isAllChecked", isAllChecked);
         response.put("isDeliveryChecked", isDeliveryChecked);
@@ -172,4 +188,5 @@ public class CartController {
         response.put("hasCheckedItems", hasCheckedItems);
         return response.toString();
     }
+
 }

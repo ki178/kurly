@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width= device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>컬리 - 마켓컬리</title>
     <link rel="shortcut icon" th:href="@{'/assets/images/favicon.ico'}">
@@ -397,6 +397,10 @@
                             <span class="delivery">샛별배송</span>
                             <span class="title" th:text="${item.getItemTitle()}"></span>
                             <p class="subtitle" th:text="${item.getSubTitle()}"></p>
+                            <label>
+                                <input type="hidden" class="item-id" name="item-id" th:value="${item.getItemId()}">
+                                <input type="hidden" class="item-status" name="item-status" th:value="${item.getItemStatus()}">
+                            </label>
                             <div class="discount-price">
                                 <div class="dimmed-price">
                                     <span class="price-number" th:text="${item.getPrice()}"></span>

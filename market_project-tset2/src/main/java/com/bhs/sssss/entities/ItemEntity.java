@@ -20,6 +20,8 @@ public class ItemEntity {
     private String price;
     private String salesPrice;
     private String itemCategory;
+    private String itemStatus;
+    private String itemStock;
     private LocalDateTime createdAt;
     private LocalDateTime deletedAt;
 

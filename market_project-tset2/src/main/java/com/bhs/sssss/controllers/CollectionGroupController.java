@@ -3,7 +3,7 @@ package com.bhs.sssss.controllers;
 import com.bhs.sssss.entities.ItemEntity;
 import com.bhs.sssss.entities.MemberEntity;
 import com.bhs.sssss.services.ItemService;
-import com.bhs.sssss.vos.PageVo;
+import com.bhs.sssss.vos.ItemPageVo;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -28,7 +28,7 @@ public class CollectionGroupController {
     @RequestMapping(value = "/market-best", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getMarketBest(@SessionAttribute(value = "member", required = false) MemberEntity member,
                                       @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
-        Pair<PageVo, ItemEntity[]> pair = this.itemService.getItemsBySticker(page);
+        Pair<ItemPageVo, ItemEntity[]> pair = this.itemService.getItemsBySticker(page);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("pageVo", pair.getLeft());
         modelAndView.addObject("items", pair.getRight());
@@ -41,7 +41,7 @@ public class CollectionGroupController {
     @RequestMapping(value = "/market-newproduct", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getMarketNewProduct(@SessionAttribute(value = "member", required = false) MemberEntity member,
                                       @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
-        Pair<PageVo, ItemEntity[]> pair = this.itemService.getItemsByNew(page);
+        Pair<ItemPageVo, ItemEntity[]> pair = this.itemService.getItemsByNew(page);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("pageVo", pair.getLeft());
         modelAndView.addObject("items", pair.getRight());
@@ -53,7 +53,7 @@ public class CollectionGroupController {
     @RequestMapping(value = "/market-sales", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getMarketSales(@SessionAttribute(value = "member", required = false) MemberEntity member,
                                             @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
-        Pair<PageVo, ItemEntity[]> pair = this.itemService.getItemsByDiscount(page);
+        Pair<ItemPageVo, ItemEntity[]> pair = this.itemService.getItemsByDiscount(page);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("pageVo", pair.getLeft());
         modelAndView.addObject("items", pair.getRight());
@@ -66,7 +66,7 @@ public class CollectionGroupController {
     public ModelAndView getSearch(@SessionAttribute(value = "member", required = false) MemberEntity member,
                                   @RequestParam(value = "page", required = false, defaultValue = "1") int page,
                                   @RequestParam(value = "keyword", required = false) String keyword) {
-        Pair<PageVo, ItemEntity[]> pair = this.itemService.getItemsByKeyword(page, keyword);
+        Pair<ItemPageVo, ItemEntity[]> pair = this.itemService.getItemsByKeyword(page, keyword);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("pageVo", pair.getLeft());
         modelAndView.addObject("items", pair.getRight());

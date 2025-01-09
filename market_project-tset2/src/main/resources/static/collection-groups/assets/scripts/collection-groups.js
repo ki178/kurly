@@ -37,7 +37,54 @@ $menuList.forEach((x) => {
 });
 
 const $cartInButton = document.querySelectorAll('#main > .container > .content-box > .item-box > .item-container > .item > .button-wrapper > .button');
+const reg = new RegExp(/\([^)]+\)/gi);
 
-$cartInButton.forEach((x) => x.onclick = () => {
-    alert('장바구니 담기 구현해야됨');
+$cartInButton.forEach((x) => x.onclick = (e) => {
+    e.preventDefault();
+    const $img = x.parentElement.parentElement.querySelector(':scope > .img-wrapper > .wrapper2 > .wrapper3 > .image');
+    const $title = x.parentElement.parentElement.querySelector(':scope > .desc-wrapper > .title');
+    const $price = x.parentElement.parentElement.querySelector(':scope > .desc-wrapper > .discount-price > .dimmed-price > .price-number');
+    const $salesPrice = x.parentElement.parentElement.querySelector(':scope > .desc-wrapper > .discount-price > .discount > .sales-price > .price-number');
+    const $itemId = x.parentElement.parentElement.querySelector(':scope  > .desc-wrapper > label > .item-id');
+    const $itemStatus = x.parentElement.parentElement.querySelector(':scope  > .desc-wrapper > label > .item-status');
+
+    CartDialog.show({
+        img: $img.src,
+        title: $title.textContent,
+        content: $title.textContent.replace(reg, '').trim(),
+        price: `${$price.textContent}원`,
+        salesPrice: `${$salesPrice.textContent}원`,
+        total: '합계',
+        totalPrice: `${$salesPrice.textContent}`,
+        buttons: [{
+            text: '취소',
+            onclick: ($dialog) => {
+                CartDialog.hide($dialog);
+            }
+        }, {
+            text: '장바구니 담기',
+            onclick: ($dialog) => {
+                const count = document.querySelector('.---cartDialog > ._div2 > ._div20 > ._div23 > ._count');
+                const formData = new FormData();
+                formData.append('itemId', $itemId.value);
+                formData.append('itemStatus', $itemStatus.value);
+                formData.append('quantity', count.innerHTML);
+
+                const xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = () => {
+                    if (xhr.readyState !== XMLHttpRequest.DONE){
+                        return;
+                    }
+                    if (xhr.status < 200 || xhr.status >= 300) {
+                        alert('오류');
+                        return;
+                    }
+                };
+                xhr.open('POST', '/cart/in');
+                xhr.send(formData);
+                CartDialog.hide($dialog);
+            }
+        }]
+    });
+    CartDialog.plusMinus();
 });

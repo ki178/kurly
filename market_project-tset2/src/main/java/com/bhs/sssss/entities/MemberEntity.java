@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(of = {"id"})
 public class MemberEntity {
     private String id;
+    private int cartId;
     private String password;
     private String userName;
     private String email;
