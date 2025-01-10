@@ -12,12 +12,17 @@ public interface PayMapper {
 
     List<CartEntity> selectAllCarts();
 
-    List<PayLoadEntity> selectAllPayLoads();
+    List<PayLoadEntity> selectAllPayLoads(@Param("id") String id);
 
-    void insertItemLoad(PayLoadEntity payLoadEntity);
+    int insertItemLoad(PayLoadEntity payLoadEntity);
 
     CartEntity selectCartById(int itemId);
 
     List<Integer> getPayIndexByCartIndex(@Param("payItemId") int payItemId);
+
+
+    void deleteCartItem(@Param("cartId") int cartId, @Param("itemId") String itemId);
+
+
 
 }

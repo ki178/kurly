@@ -116,7 +116,6 @@ public class CartService {
         if (index <= 0) {
             throw new IllegalArgumentException("Invalid index: " + index);
         }
-        cartItem.setDeleted(true); // isDeleted = 1로 설정
         this.cartMapper.deleteCartItem(index);
     }
 

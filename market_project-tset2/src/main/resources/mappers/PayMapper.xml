@@ -27,6 +27,7 @@
     <select id="selectAllPayLoads" resultType="com.bhs.sssss.entities.PayLoadEntity">
         SELECT `index` AS `index`,
                `cart_index` AS `cartIndex`,
+               `member_id` AS  `memberId`,
                `pay_item_id` AS `payItemId`,
                `pay_item_name` AS `payItemName`,
                `pay_item_price` AS `payItemPrice`,
@@ -35,12 +36,12 @@
                `total_price` AS `totalPrice`,
                `purchase_day` AS `purchaseDay`
         FROM `kurly`.`pay_record`
-        WHERE 1
+        WHERE `member_id` = #{id}
     </select>
-
 
     <select id="selectCartById" resultType="com.bhs.sssss.entities.CartEntity">
         SELECT `index` AS `index`,
+               `cart_id` AS `cartId`,
                `item_id` AS `itemId`,
                `item_name` AS `itemName`,
                `item_price` AS `itemPrice`,
@@ -56,4 +57,11 @@
           AND `is_deleted` = false
           AND `is_checked` = 1
     </select>
+
+    <delete id="deleteCartItem" parameterType="map">
+        DELETE FROM `kurly`.`carts`
+        WHERE `cart_id` = #{cartId}
+        AND `item_id` = #{itemId}
+    </delete>
+
 </mapper>

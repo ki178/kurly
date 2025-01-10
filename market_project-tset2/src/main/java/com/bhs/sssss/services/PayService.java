@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 public class PayService {
     private final PayMapper payMapper;
 
+
     @Autowired
     public PayService(PayMapper payMapper) {
         this.payMapper = payMapper;
@@ -48,20 +49,28 @@ public class PayService {
             }
 
 
+
+
             for (Integer cartIndex : cartIndexes) {
                 item.setCartIndex(cartIndex);
             }
+
         }
 
         if (totalPriceSum == totalPrice) {
             for (PayLoadEntity item : payload) {
+                CartEntity cartItem = this.payMapper.selectCartById(item.getPayItemId());
                 item.setTotalPrice(totalPrice);
 
                 item.setMemberId(member.getId());
                 item.setPurchaseDay(LocalDateTime.now());
 
-                this.payMapper.insertItemLoad(item);
+                if (this.payMapper.insertItemLoad(item) > 0) {
+                    this.payMapper.deleteCartItem(cartItem.getCartId(), cartItem.getItemId());
+                }
+
             }
+
             return true;
         }
         return false;
@@ -69,8 +78,8 @@ public class PayService {
 
     // Comparator : getPurchaseDay(날짜) 기준으로 정렬
     // Collectors : 받은 결제 내역을 리스트(List)나 맵(Map) 형태로 묶기 위해// Comparator :
-    public List<PayLoadEntity> getAllPayByCartId() {
-        List<PayLoadEntity> payLoadList = this.payMapper.selectAllPayLoads();
+    public List<PayLoadEntity> getAllPayByCartId(MemberEntity member) {
+        List<PayLoadEntity> payLoadList = this.payMapper.selectAllPayLoads(member.getId());
         return payLoadList.stream()
                 .sorted(Comparator.comparing(PayLoadEntity::getPurchaseDay))
                 .collect(Collectors.toList());
