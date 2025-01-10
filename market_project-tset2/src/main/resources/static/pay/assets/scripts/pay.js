@@ -84,3 +84,13 @@ document.addEventListener('DOMContentLoaded', () => {
         xhr.send(formData);
     });
 });
+
+const $changeButton = document.querySelector('.change-button');
+$changeButton.onclick = () => {
+    Dialog2.showDialog({
+        message: `장바구니로 이동하여 다른 배송지로 변경하시겠습니까?`,
+        onConfirm: () => {
+            history.back();
+        }
+    });
+};

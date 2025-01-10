@@ -86,19 +86,6 @@
         WHERE `index` = #{index}
     </update>
 
-    <delete id="deleteCartItem" parameterType="map">
-        DELETE FROM `kurly`.`carts`
-        WHERE `index` = #{index}
-    </delete>
-
-    <delete id="updateDeletedStatusForItems" parameterType="list">
-        DELETE FROM `kurly`.carts
-        WHERE `index` IN
-        <foreach item="index" collection="indices" open="(" separator="," close=")">
-            #{index}
-        </foreach>
-        AND `is_checked` = 1
-    </delete>
 
     <update id="updateCartByQuantity" parameterType="com.bhs.sssss.entities.CartEntity">
         UPDATE `kurly`.`carts`
@@ -111,11 +98,14 @@
         SELECT COUNT(*)
         FROM `kurly`.`carts`
         WHERE `is_deleted` = 0
+        AND `member_id` = #{id}
     </select>
     <select id="countCheckedItems" resultType="_int">
         SELECT COUNT(*)
         FROM `kurly`.`carts`
-        WHERE `is_deleted` = 0 AND `is_checked` = 1
+        WHERE `is_deleted` = 0
+          AND `is_checked` = 1
+          AND `member_id` = #{id}
     </select>
     <select id="selectCountCartsByMemberId"
             resultType="_int">
@@ -125,7 +115,7 @@
           AND `is_deleted` = 0
     </select>
 
-    <select id="selectCartById"
+    <select id="selectCartByIdAndMemberId"
             resultType="com.bhs.sssss.entities.CartEntity">
         SELECT `index`      AS `index`,
                `member_id`  AS `memberId`,
@@ -140,10 +130,23 @@
                `item_image` AS `itemImage`
         FROM `kurly`.`carts`
         WHERE `item_id` = #{itemId}
+          AND `member_id` = #{id}
           AND `is_deleted` = 0
         LIMIT 1
     </select>
 
+    <delete id="deleteCartItem" parameterType="map">
+        DELETE FROM `kurly`.`carts`
+        WHERE `index` = #{index}
+    </delete>
 
+    <delete id="updateDeletedStatusForItems" parameterType="list">
+        DELETE FROM `kurly`.carts
+        WHERE `index` IN
+        <foreach item="index" collection="indices" open="(" separator="," close=")">
+            #{index}
+        </foreach>
+        AND `is_checked` = 1
+    </delete>
 
 </mapper>

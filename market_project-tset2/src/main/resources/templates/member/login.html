@@ -22,7 +22,7 @@
             window.close();
         }
     </script>
-    <title>회원가입 - 컬리</title>
+    <title>로그인 - 칼리</title>
 </head>
 <body>
 <div th:replace="~{/fragments/header :: headerFragment}"></div>
@@ -35,7 +35,7 @@
             <div class="login-wrapper">
                 <div class="label-container">
                     <label class="label">
-                        <input type="text" class="input-id" name="memberId" placeholder="아이디를 입력해주세요">
+                        <input autocomplete="false" type="text" class="input-id" name="memberId" placeholder="아이디를 입력해주세요">
                     </label>
                 </div>
                 <div class="label-container">

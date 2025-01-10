@@ -116,6 +116,7 @@ public class CartService {
         if (index <= 0) {
             throw new IllegalArgumentException("Invalid index: " + index);
         }
+
         this.cartMapper.deleteCartItem(index);
     }
 
@@ -127,12 +128,12 @@ public class CartService {
     }
 
 
-    public boolean hasActiveItems() {
-        return cartMapper.countActiveItems() > 0;
+    public boolean hasActiveItems(MemberEntity member) {
+        return cartMapper.countActiveItems(member.getId()) > 0;
     }
 
-    public boolean hasCheckedItems() {
-        return cartMapper.countCheckedItems() > 0;
+    public boolean hasCheckedItems(MemberEntity member) {
+        return cartMapper.countCheckedItems(member.getId()) > 0;
     }
 
     @Transactional
@@ -143,8 +144,8 @@ public class CartService {
         if(quantity <= 0) {
             quantity = 1;
         }
-        if(this.cartMapper.selectCartById(Integer.parseInt(itemId)) != null) {
-            CartEntity cart = this.cartMapper.selectCartById(Integer.parseInt(itemId));
+        if(this.cartMapper.selectCartByIdAndMemberId(Integer.parseInt(itemId), member.getId()) != null) {
+            CartEntity cart = this.cartMapper.selectCartByIdAndMemberId(Integer.parseInt(itemId), member.getId());
             cart.setQuantity(cart.getQuantity() + quantity);
             if(this.cartMapper.updateCartByQuantity(cart) == 0) {
                 throw new TransactionalException();

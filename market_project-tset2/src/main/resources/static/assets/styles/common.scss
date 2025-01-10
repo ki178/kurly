@@ -273,11 +273,17 @@ body {
           @include flex(row, center, flex-start);
           height: 3.9rem;
 
+          > a > .logo {
+            width: 6.25rem;
+            filter: invert(14%) sepia(62%) saturate(5813%) hue-rotate(281deg) brightness(66%) contrast(114%);
+            padding-bottom: 0.25rem;
+          }
+
           > .logo_text {
             font-weight: 500;
             color: rgb(95, 0, 128);
             flex-shrink: 0;
-            margin-left: 1.25rem;
+            margin-left: 0.75rem;
             font-size: 1.125rem;
             line-height: 1.33;
             letter-spacing: normal;
@@ -773,8 +779,9 @@ body {
             }
           }
 
-          > .readdress {
+          > a > .readdress {
             font-size: 0.75rem;
+            font-weight: 500;
             width: 15rem;
             height: 2.125rem;
           }

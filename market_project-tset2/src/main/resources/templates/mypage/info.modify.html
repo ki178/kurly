@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
     <script defer type="text/javascript" th:src="@{'/mypage/assets/scripts/info.modify.js'}"></script>
     <script th:if="${member == null}">
@@ -20,7 +21,7 @@
             window.close();
         }
     </script>
-    <title>컬리 - 마켓컬리</title>
+    <title>칼리 - 마켓칼리</title>
 </head>
 <body th:if="${member != null}">
 <div th:replace="~{/fragments/header :: headerFragment}"></div>
@@ -79,6 +80,24 @@
                                 </label>
                             </div>
                             <div class="empty-box"></div>
+                        </div>
+                        <div class="input-box address-box">
+                            <div class="name-box">
+                                <label for="address" class="label">주소</label>
+                            </div>
+                            <div class="input-box2">
+                                <label for="address" class="label">
+                                    <input type="text" id="address" class="address" name="address" th:value="${member.getAddress()}">
+                                </label>
+                            </div>
+                            <div class="empty-box">
+                                <button class="find-button --obj-button --color-light-primary" type="button">
+                                    <span class="_text">
+                                        <img src="https://res.kurly.com/pc/service/cart/2007/ico_search.svg" alt="" class="image">
+                                        주소 검색
+                                    </span>
+                                </button>
+                            </div>
                         </div>
                         <div class="input-box">
                             <div class="name-box">

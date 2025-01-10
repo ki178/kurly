@@ -16,15 +16,14 @@ import java.util.stream.Collectors;
 public class PayService {
     private final PayMapper payMapper;
 
-
     @Autowired
     public PayService(PayMapper payMapper) {
         this.payMapper = payMapper;
     }
 
 
-    public List<CartEntity> getAllPay() {
-        return this.payMapper.selectAllCarts();
+    public List<CartEntity> getAllPay(MemberEntity member) {
+        return this.payMapper.selectAllCarts(member.getId());
     }
 
 
@@ -33,7 +32,7 @@ public class PayService {
         int totalPriceSum = 0;
 
         for (PayLoadEntity item : payload) {
-            CartEntity cartItem = this.payMapper.selectCartById(item.getPayItemId());
+            CartEntity cartItem = this.payMapper.selectCartById(item.getPayItemId(), member.getId());
             if (cartItem == null || member == null ||
                     !cartItem.getItemName().equals(item.getPayItemName()) ||
                     cartItem.getItemPrice() * cartItem.getQuantity() != Integer.parseInt(item.getPayItemPrice()) ||
@@ -49,17 +48,14 @@ public class PayService {
             }
 
 
-
-
             for (Integer cartIndex : cartIndexes) {
                 item.setCartIndex(cartIndex);
             }
-
         }
 
         if (totalPriceSum == totalPrice) {
             for (PayLoadEntity item : payload) {
-                CartEntity cartItem = this.payMapper.selectCartById(item.getPayItemId());
+                CartEntity cartItem = this.payMapper.selectCartById(item.getPayItemId(), member.getId());
                 item.setTotalPrice(totalPrice);
 
                 item.setMemberId(member.getId());
@@ -68,20 +64,19 @@ public class PayService {
                 if (this.payMapper.insertItemLoad(item) > 0) {
                     this.payMapper.deleteCartItem(cartItem.getCartId(), cartItem.getItemId());
                 }
-
             }
-
             return true;
         }
         return false;
     }
 
     // Comparator : getPurchaseDay(날짜) 기준으로 정렬
-    // Collectors : 받은 결제 내역을 리스트(List)나 맵(Map) 형태로 묶기 위해// Comparator :
+    // Collectors : 받은 결제 내역을 리스트(List)나 맵(Map) 형태로 묶기 위해
+    // reversed() : 내림차순 정렬
     public List<PayLoadEntity> getAllPayByCartId(MemberEntity member) {
         List<PayLoadEntity> payLoadList = this.payMapper.selectAllPayLoads(member.getId());
         return payLoadList.stream()
-                .sorted(Comparator.comparing(PayLoadEntity::getPurchaseDay))
+                .sorted(Comparator.comparing(PayLoadEntity::getPurchaseDay).reversed())
                 .collect(Collectors.toList());
     }
 

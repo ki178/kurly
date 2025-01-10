@@ -51,6 +51,16 @@
           border-bottom-right-radius: 16px;
           border-bottom-left-radius: 16px;
           height: 80px;
+
+          >._text{
+            color: #9ea4ac;
+            margin-left: 1.2rem;
+            margin-top: 0.5rem;
+            font-weight: 400;
+            font-size: 15px;
+            letter-spacing: -0.5px;
+            line-height: 28px;
+          }
         }
 
         > .no-item-container {

@@ -163,7 +163,7 @@ function findAddress() {
     }).open({
         left: (window.screen.width / 2) - (width / 2),
         top: (window.screen.height / 2) - (height / 2),
-        popupTitle: '컬리 - 마켓컬리',
+        popupTitle: '칼리 - 마켓칼리',
         popupKey: 'popup1',
     });
 }

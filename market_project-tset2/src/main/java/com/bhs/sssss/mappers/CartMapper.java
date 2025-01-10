@@ -25,13 +25,15 @@ public interface CartMapper {
     void updateDeletedStatusForItems(@Param("indices") List<Integer> indices);
 
 
-    int countActiveItems();
+    int countActiveItems(@Param("id") String id);
 
-    int countCheckedItems();
+    int countCheckedItems(@Param("id") String id);
 
     int selectCountCartsByMemberId(@Param("memberId") String memberId);
 
-    CartEntity selectCartById(@Param("itemId")int itemId);
+    CartEntity selectCartByIdAndMemberId(@Param("itemId")int itemId,
+                                         @Param("id") String id);
+
 
     int insertCart(CartEntity cart);
 

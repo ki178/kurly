@@ -357,7 +357,6 @@ class CartDialog {
 }
 //endregion
 
-
 //region 카테고리 띄우기
 const $category = document.querySelector('#nav > .header-wrapper > .category');
 const $categoryMenu = $category.querySelector(':scope > .category-container > .category-menu');
@@ -444,6 +443,7 @@ setTimeout(() => {
 
 
 const $pickButton = document.getElementById('pick-button');
+const $pickButton2 = document.getElementById('pick-button2');
 const $cartButton = document.getElementById('cart-button');
 
 $pickButton.onclick = () => {
@@ -452,7 +452,11 @@ $pickButton.onclick = () => {
     location.href = url.toString();
 }
 
-
+$pickButton2.onclick = () => {
+    const url = new URL(location.href);
+    url.pathname = '/mypage/pick';
+    location.href = url.toString();
+}
 
 
 

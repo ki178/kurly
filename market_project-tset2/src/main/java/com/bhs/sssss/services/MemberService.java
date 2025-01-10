@@ -309,6 +309,7 @@ public class MemberService {
         MemberEntity dbMember = this.memberMapper.selectUserByEmail(member.getEmail());
         dbMember.setPassword(encoder.encode(member.getPassword()));
         dbMember.setUserName(member.getUserName());
+        dbMember.setAddress(member.getAddress());
         dbMember.setUpdatedAt(LocalDateTime.now());
         if(this.memberMapper.updateMember(dbMember) == 0) {
             throw new TransactionalException();

@@ -134,6 +134,15 @@ a {
   border-bottom-left-radius: 16px;
   height: 80px;
 }
+#pay-record > .pay-record-box > .load-container > .item-record-container > .box-bottom > ._text {
+  color: #9ea4ac;
+  margin-left: 1.2rem;
+  margin-top: 0.5rem;
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: -0.5px;
+  line-height: 28px;
+}
 #pay-record > .pay-record-box > .load-container > .item-record-container > .no-item-container {
   display: flex;
   -webkit-box-align: center;

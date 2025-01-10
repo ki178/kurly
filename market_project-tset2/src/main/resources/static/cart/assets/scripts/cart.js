@@ -513,3 +513,8 @@ document.addEventListener('DOMContentLoaded', calculateTotal);
         });
     });
 }
+
+const $changeButton = document.querySelector('.change-button');
+$changeButton.onclick = () => {
+    window.location.href = '/mypage/info';
+};

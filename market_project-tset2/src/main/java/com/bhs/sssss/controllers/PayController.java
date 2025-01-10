@@ -33,7 +33,7 @@ public class PayController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView getPayIndex(@SessionAttribute(value = "member", required = false) MemberEntity member) {
         ModelAndView mav = new ModelAndView();
-        List<CartEntity> items = this.payService.getAllPay();
+        List<CartEntity> items = this.payService.getAllPay(member);
         mav.addObject("items", items);
         mav.addObject("member", member);
         mav.setViewName("pay/pay");

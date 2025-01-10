@@ -1,4 +1,5 @@
-* {
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
+*:not(:first-of-type(div)) {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -12,7 +13,7 @@ a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, bo
 }
 
 html {
-  font-family: "Noto Sans KR", "malgun gothic", AppleGothic, dotum, sans-serif;
+  font-family: Pretendard, "Pretendard Variable", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   touch-action: manipulation;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -40,11 +41,11 @@ body {
 }
 
 body, body, input, select, textarea {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #333333;
 }
 
-input, textarea {
+input:not(:nth-of-type(top)), textarea {
   all: unset;
   box-sizing: border-box;
   -webkit-user-select: text;
@@ -55,7 +56,7 @@ div {
   unicode-bidi: isolate;
 }
 
-input {
+input:not(:nth-of-type(top)) {
   text-rendering: auto;
   letter-spacing: normal;
   word-spacing: normal;
@@ -70,13 +71,13 @@ input {
   cursor: text;
   background-color: field;
   margin: 0;
-  padding: 1px 0;
-  border-width: 2px;
+  padding: 0.0625rem 0;
+  border-width: 0.125rem;
   border-style: inset;
   border-color: rgb(118, 118, 118);
   border-image: initial;
-  padding-block: 1px;
-  padding-inline: 2px;
+  padding-block: 0.0625rem;
+  padding-inline: 0.125rem;
 }
 
 button, input, optgroup, select, textarea {
@@ -103,9 +104,10 @@ button {
 }
 
 p {
+  font: inherit;
   display: block;
-  margin-block-start: 1em;
-  margin-block-end: 1em;
+  margin-block-start: 0.7em;
+  margin-block-end: 0.7em;
   margin-inline-start: 0;
   margin-inline-end: 0;
   unicode-bidi: isolate;
@@ -118,7 +120,6 @@ a {
 }
 
 a:-webkit-any-link {
-  color: -webkit-link;
   cursor: pointer;
 }
 
