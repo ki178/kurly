@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         return;
                     }
                     const response = JSON.parse(xhr.responseText);
-                    if (response['error']) {
+                    if (response['result'] === 'error') {
                         alert(`Error: ${response['error']}`);
                         return;
                     }
@@ -152,7 +152,7 @@ function sendCheckboxStatus(checkbox) {
             return;
         }
         const response = JSON.parse(xhr.responseText);
-        if (response['error']) {
+        if (response['result'] === 'error') {
             alert(`Error: ${response['error']}`);
         }
 
@@ -275,7 +275,7 @@ function calculateTotal() {
         }
 
         const response = JSON.parse(xhr.responseText);
-        if (response['error']) {
+        if (response['result'] === 'error') {
             alert(`Error: ${response['error']}`);
             return;
         }
@@ -432,7 +432,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             const response = JSON.parse(xhr.responseText);
-            if (response['error']) {
+            if (response['result'] === 'error') {
                 alert(`Error: ${response['error']}`);
                 return;
             }
@@ -485,7 +485,7 @@ document.addEventListener('DOMContentLoaded', calculateTotal);
                             }
                             button.disabled = false;
                             const response = JSON.parse(xhr.responseText);
-                            if (response['error']) {
+                            if (response['result'] === 'error') {
                                 alert(`Error: ${response.error}`);
                                 return;
                             }

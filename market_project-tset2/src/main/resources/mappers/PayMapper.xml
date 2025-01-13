@@ -39,7 +39,7 @@
                `purchase_day`   AS `purchaseDay`
         FROM `kurly`.`pay_record`
         WHERE `member_id` = #{id}
-        ORDER BY `purchase_day` DESC
+        ORDER BY pay_record.`purchase_day` DESC
     </select>
 
 
