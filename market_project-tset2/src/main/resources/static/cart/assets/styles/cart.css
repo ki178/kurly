@@ -608,6 +608,25 @@ i {
 #list > .item-container > .item > .--item > .item-detail > .--status > .ice > .status-details {
   margin-left: 0.125rem;
 }
+#list > .item-container > .item > .--item > .item-detail > .--status > .room {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+#list > .item-container > .item > .--item > .item-detail > .--status > .room {
+  background-color: #feebe4;
+  color: #fca182;
+}
+#list > .item-container > .item > .--item > .item-detail > .--status > .room > .status-icon {
+  width: 1rem;
+  height: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+#list > .item-container > .item > .--item > .item-detail > .--status > .room > .status-details {
+  margin-left: 0.125rem;
+}
 #list > .item-container > .item > .--item > .item-detail > .item-price-details {
   display: flex;
   -webkit-box-pack: start;

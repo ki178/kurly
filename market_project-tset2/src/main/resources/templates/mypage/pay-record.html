@@ -42,6 +42,7 @@
                     <div class="item-record-container">
                         <div class="box-bottom">
                             <p class="_text">* 실제 배송이나 결제가 진행되진 않습니다.</p>
+                            <p class="_text"></p>
                         </div>
                         <div class="no-item-container" th:if="${items == null or items.isEmpty()}">
                             <span style="box-sizing: border-box; display: inline-block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0; margin: 0; padding: 0; position: relative; max-width: 100%;">
@@ -61,7 +62,7 @@
                         <div class="item-container" th:if="${items != null and !#lists.isEmpty(items)}" th:each="entry : ${items}">
                             <div class="purchase-day">
                                 <div class="purchase-day-text">
-                                    <p class="_text" th:text="|${entry.key}|"></p>
+                                    <p class="_text" th:text="|${#temporals.format(entry.key, 'yyyy-MM-dd HH:mm:ss')}|"></p>
                                     <div class="total-price-text">
                                         <p class="_text" th:text="|총금액 : ${#numbers.formatInteger(entry.value[0].totalPrice, 3, 'COMMA')}원|"></p>
                                     </div>

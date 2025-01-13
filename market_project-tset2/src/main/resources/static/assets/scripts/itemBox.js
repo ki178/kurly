@@ -85,6 +85,16 @@ $cartBtn.forEach((x) => x.onclick = (e) => {
                         alert('오류');
                         return;
                     }
+                    const response = JSON.parse(xhr.responseText);
+                    if (response['result'] === 'failure') {
+                        Dialog.show({
+                            content: `로그인 하셔야 본 서비스를 이용하실 수 있습니다.`,
+                            buttons: [{
+                                text: '확인',
+                                onclick: ($dialog) => Dialog.hide($dialog)
+                            }]
+                        })
+                    }
                 };
                 xhr.open('POST', '/cart/in');
                 xhr.send(formData);
@@ -134,6 +144,16 @@ $cartBtn2.forEach((x) => x.onclick = (e) => {
                     if (xhr.status < 200 || xhr.status >= 300) {
                         alert('오류');
                         return;
+                    }
+                    const response = JSON.parse(xhr.responseText);
+                    if (response['result'] === 'failure') {
+                        Dialog.show({
+                            content: `로그인 하셔야 본 서비스를 이용하실 수 있습니다.`,
+                            buttons: [{
+                                text: '확인',
+                                onclick: ($dialog) => Dialog.hide($dialog)
+                            }]
+                        })
                     }
                 };
                 xhr.open('POST', '/cart/in');
