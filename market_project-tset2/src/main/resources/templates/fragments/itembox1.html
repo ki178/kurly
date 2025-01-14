@@ -6,13 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>칼리 - 마켓칼리</title>
-    <link rel="shortcut icon" th:href="@{'/assets/images/favicon.ico'}">
-    <link rel="stylesheet" type="text/css" th:href="@{'/assets/styles/common.css'}">
-    <link rel="stylesheet" type="text/css" th:href="@{'/assets/styles/index.css'}">
-    <script defer type="text/javascript" th:src="@{'/assets/scripts/common.js'}"></script>
-    <script defer type="text/javascript" th:src="@{'/assets/scripts/index.js'}"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+
 </head>
 <body>
     <div th:fragment="itembox1Fragment (items, title, subtitle)" class="first-container">
@@ -26,11 +20,11 @@
             <div class="swiper swiper-initialized swiper-horizontal swiper-pointer-events">
                 <div class="swiper-wrapper">
                     <div th:each="item : ${items}" th:if="${item.getIndex()} < 17" class="swiper-slide">
-                        <a href="#" class="link">
+                        <a th:href="@{/goods/detail (itemId=${item.getItemId()})}" class="link">
                             <div class="img-wrapper">
                                 <div class="img-box">
                                     <div class="img-box2">
-                                    <span><img alt="" th:src="@{${item.getItemImage()}}" decoding="async" data-nimg="fill" class="img">
+                                    <span><img alt="" th:src="@{${item.getImageUrl()}}" decoding="async" data-nimg="fill" class="img">
                                     </span>
 
                                         <div class="sticker-wrapper">
@@ -54,7 +48,7 @@
                                 <h3 class="product-name" th:text="${item.getItemTitle()}"></h3>
                                 <label>
                                     <input type="hidden" class="item-id" name="item-id" th:value="${item.getItemId()}">
-                                    <input type="hidden" class="item-status" name="item-status" th:value="${item.getItemStatus()}">
+                                    <input type="hidden" class="item-status" name="item-status" th:value="${item.getPackaging()}">
                                 </label>
                                 <div class="content-row">
                                     <div class="product-price discount-price">

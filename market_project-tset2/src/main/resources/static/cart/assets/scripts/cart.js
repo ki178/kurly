@@ -155,6 +155,7 @@ function sendCheckboxStatus(checkbox) {
         if (response['result'] === 'error') {
             alert(`Error: ${response['error']}`);
         }
+        syncCheckboxes();
 
     };
     xhr.open('POST', '/cart/updateCheck');
@@ -164,8 +165,7 @@ function sendCheckboxStatus(checkbox) {
 
 
 // 전체선택 서버 구현
-document.addEventListener('DOMContentLoaded', () => {
-    const allSelectCheckbox = document.querySelector('input[value="selectAll"]'); // 전체 선택
+const allSelectCheckbox = document.querySelector('input[value="selectAll"]'); // 전체 선택
     const deliveryCheckbox = document.querySelector('.Delivery-checkbox'); // 샛별 배송
     const itemCheckboxes = document.querySelectorAll('.checkbox'); // 개별 항목 체크박스
     // 체크박스 상태 동기화
@@ -237,12 +237,14 @@ document.addEventListener('DOMContentLoaded', () => {
         xhr.send();
     }
     initializeCheckboxes(); // 초기화 호출
-});
+
 
 // 총합 계산
 function calculateTotal() {
     const formData = new FormData();
     let totalItemPrice = 0;
+    let totalCostPrice = 0;
+    let totalDiscount = 0;
 
     document.querySelectorAll('.item').forEach(item => {
         const checkbox = item.querySelector('.checkbox');
@@ -253,13 +255,20 @@ function calculateTotal() {
         if (checkbox && checkbox.checked) {
             const $indexElement  = item.querySelector('.id');
             const $itemPriceElement = item.querySelector('.itemPrice');
-            if ($indexElement  || $itemPriceElement) {
+            const $costPriceElement = item.querySelector('.costPrice');
+            const $quantityElement = item.querySelector('.quantity');
+            if ($indexElement  || $itemPriceElement || $costPriceElement) {
                 const $index = $indexElement .value.trim();
+                const $costPrice = parseInt($costPriceElement.innerText.replace(/[^0-9]/g, ''), 10);
                 const $itemPrice = parseInt($itemPriceElement.innerText.replace(/[^0-9]/g, ''), 10);
-                console.log()
-                formData.append('index', $index);
-                formData.append('itemPrice', $itemPrice.toString());
+                const $quantity = parseInt($quantityElement.innerText, 10);
+                totalCostPrice += $costPrice * $quantity;
                 totalItemPrice += $itemPrice;
+                totalDiscount = totalCostPrice -= totalItemPrice;
+                formData.append('index', $index);
+                formData.append('itemPrice', $itemPrice);
+                formData.append('costPrice', $costPrice);
+                formData.append('quantity', $quantity);
             }
         }
     });
@@ -279,21 +288,24 @@ function calculateTotal() {
             alert(`Error: ${response['error']}`);
             return;
         }
-        const totalPrice = response['totalPrice'] || 0;
+        const totalItemPrice  = response['totalItemPrice'] || 0;
+        const totalDiscount = response['totalDiscount'] || 0;
 
-        updateUI(totalPrice);
+        updateUI(totalItemPrice , totalDiscount);
 
 
-        function updateUI(totalPrice) {
-            const priceText = `${totalPrice.toLocaleString()} 원`;
+        function updateUI(totalItemPrice , totalDiscount) {
+            const priceText = `${totalItemPrice.toLocaleString()} 원`;
+            const discountText = `-${totalDiscount.toLocaleString()} 원`;
             // 로그인 여부 확인
             const isLoggedIn = document.querySelector('a[href="/member/login"]') === null;
 
             // 로그인 상태에 따라 버튼 텍스트 설정
             const buttonText = isLoggedIn
-                ? (totalPrice > 0 ? `${priceText} 주문하기` : "상품을 선택해주세요")
+                ? (totalItemPrice > 0 ? `${priceText} 주문하기` : "상품을 선택해주세요")
                 : "로그인";
-
+            document.querySelector('.pay > .price').innerText = totalItemPrice > 0 ? priceText : '0 원';
+            document.querySelector('.pay > .color').innerText = totalDiscount > 0 ? discountText : '0 원';
             document.querySelector('.pay > .price').innerText = priceText;
             document.querySelector('.total-pay > .price').innerText = priceText;
             document.querySelector('.pay-button').innerText = buttonText;
@@ -302,7 +314,7 @@ function calculateTotal() {
                 document.querySelector('.items-price > ._text').innerText = `상품 0 원 + 배송비 무료`;
                 document.querySelector('.total-price').innerText = "0 원";
             } else {
-                document.querySelector('.items-price > ._text').innerText = `상품 ${totalPrice.toLocaleString()} 원 + 배송비 무료`;
+                document.querySelector('.items-price > ._text').innerText = `상품 ${totalItemPrice.toLocaleString()} 원 + 배송비 무료`;
                 document.querySelector('.total-price').innerText = priceText;
             }
 

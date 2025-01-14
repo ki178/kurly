@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -55,6 +56,7 @@ public class CartController {
     public String PostCartIndex(@SessionAttribute(value = "member", required = false) MemberEntity member,
                                 @RequestParam(value = "quantity", required = false) int quantity,
                                 @RequestParam(value = "itemId", required = false) String itemId) {
+
         Result result = this.cartService.postCart(member, quantity, itemId);
         JSONObject response = new JSONObject();
         response.put(Result.NAME, result.nameToLower());
@@ -107,7 +109,9 @@ public class CartController {
     @RequestMapping(value = "/totalPrice", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String calculateTotalPrice( @RequestParam(value = "index", required = false) List<Integer> index,
-                                       @RequestParam(value = "itemPrice", required = false) List<Integer> itemPrices) {
+                                       @RequestParam(value = "itemPrice", required = false) List<Integer> itemPrices,
+                                       @RequestParam(value = "costPrice", required = false) List<Integer> costPrices,
+                                       @RequestParam(value = "quantities") List<Integer> quantities) {
         JSONObject response = new JSONObject();
         if (index == null || itemPrices == null || index.isEmpty() || itemPrices.isEmpty()) {
             response.put("totalPrice", 0);
@@ -120,8 +124,9 @@ public class CartController {
                 response.put("error", "입력크기가 일치하지 않습니다");
                 return response.toString();
             }
-            int totalPrice = this.cartService.calculateTotalPrice(index, itemPrices);
-            response.put("totalPrice", totalPrice);
+            Map<String, Integer> totalPrice = this.cartService.calculateTotalPrice(index, itemPrices, costPrices, quantities);
+            response.put("totalItemPrice", totalPrice.get("totalItemPrice"));
+            response.put("totalDiscount", totalPrice.get("totalDiscount"));
         }catch (NumberFormatException e) {
             response.put("error","잘못된 숫자 형식입니다.");
         }

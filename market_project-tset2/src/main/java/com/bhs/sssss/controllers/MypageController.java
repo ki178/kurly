@@ -114,11 +114,11 @@ public class MypageController {
     @RequestMapping(value = "/pay-record", method = RequestMethod.GET)
     public ModelAndView getRecord(@SessionAttribute(value = "member", required = false) MemberEntity member, HttpServletResponse response) throws IOException {
         ModelAndView mav = new ModelAndView();
-        if (member == null) {
-           response.setContentType("text/html; charset=UTF-8");
-           PrintWriter out = response.getWriter();
-           out.println("<script>alert('장시간 동안 움직임이 없어 로그아웃 되었습니다. 로그인 창으로 이동합니다.'); location.href='/member/login';</script>");
-           out.flush();
+        if(member == null){
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('장시간 동안 움직임이 없어 로그아웃 되었습니다. 로그인 창으로 이동합니다.'); location.href='/member/login';</script>");
+            out.flush();
         }
         Map<LocalDateTime, List<PayLoadEntity>> groupedItems = this.payService.getAllPayByCartId(member);
         mav.addObject("member", member);

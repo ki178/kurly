@@ -13,6 +13,7 @@ public class CartEntity {
     private int cartId; // 추가한 것
     private String itemId;
     private String itemName;
+    private int costPrice; // 추가한 것
     private int itemPrice;
     private String itemImage;
     private int quantity;

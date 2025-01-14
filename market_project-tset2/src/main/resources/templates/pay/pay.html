@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
-    <script th:if="${member == null}">
+    <script th:if="${member == null || items == null || items.isEmpty()}">
         alert('올바르지 않은 접근입니다.');
         if(history.length > 1){
             history.back();
@@ -58,7 +58,7 @@
                                             </div>
                                             <div class="item-price">
                                                 <p class="_text" th:text="|${#numbers.formatInteger(item.getItemPrice() * item.getQuantity(), 3, 'COMMA')} 원|"></p>
-                                                <span class="_text-unDiscount"></span>
+                                                <span class="costPrice"></span>
                                                 <div class="line"></div>
                                                 <p class="quantity" th:text="|${item.getQuantity()} 개|"></p>
                                             </div>

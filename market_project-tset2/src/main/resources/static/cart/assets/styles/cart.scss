@@ -564,20 +564,16 @@
               -webkit-box-align: center;
               align-items: center;
               margin-top: 0.5rem;
-
               & {
                 background-color: #feebe4;
                 color: #fca182;
               }
-
               > .status-icon {
                 width: 1rem;
                 height: 1rem;
                 align-items: center;
                 justify-content: center;
-
               }
-
               > .status-details {
                 margin-left: 0.125rem;
               }
@@ -626,8 +622,9 @@
                   font-size: 1rem;
                 }
 
-                > ._text-unDiscount {
+                > .costPrice {
                   color: #bcc4cc;
+                  margin-left: 0.5rem;
                   text-decoration: line-through;
                   display: -webkit-box;
                   overflow: hidden;

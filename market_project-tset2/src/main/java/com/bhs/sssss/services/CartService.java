@@ -14,7 +14,9 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CartService {
@@ -98,16 +100,22 @@ public class CartService {
         this.cartMapper.updateCheckStatus(index, isChecked);
     }
 
-    public int calculateTotalPrice(List<Integer> indices, List<Integer> itemPrices) {
+    public Map<String, Integer> calculateTotalPrice(List<Integer> indices, List<Integer> itemPrices, List<Integer> costPrices, List<Integer> quantities) {
         if (indices == null || itemPrices == null || indices.size() != itemPrices.size()) {
             throw new IllegalArgumentException("Invalid input data: itemIds or itemPrices is null or mismatched");
         }
 
-        int totalPrice = 0;
+        int totalItemPrice = 0;
+        int totalCostPrice = 0;
         for (int i = 0; i < indices.size(); i++) {
-            totalPrice += itemPrices.get(i); // itemPrice 합산
+            totalItemPrice += itemPrices.get(i); // itemPrice 합산
+            totalCostPrice += costPrices.get(i) * quantities.get(i);
         }
-        return totalPrice;
+        int totalDiscount = totalCostPrice - totalItemPrice;
+        Map<String, Integer> result = new HashMap<>();
+        result.put("totalItemPrice", totalItemPrice);
+        result.put("totalCostPrice", totalCostPrice);
+        return result;
     }
 
 
@@ -153,6 +161,7 @@ public class CartService {
         } else {
             ItemEntity item = this.itemMapper.selectItemByItemId(itemId);
             int price = Integer.parseInt(item.getSalesPrice().replaceAll(",", ""));
+            int costPrice = Integer.parseInt(item.getPrice().replaceAll(",", ""));
             MemberEntity dbMember = this.memberMapper.selectUserById(member.getId());
 
             System.out.println(dbMember.getCartId());
@@ -162,12 +171,13 @@ public class CartService {
             cartItem.setCartId(dbMember.getCartId());
             cartItem.setItemId(item.getItemId());
             cartItem.setItemName(item.getItemTitle());
+            cartItem.setCostPrice(costPrice);
             cartItem.setItemPrice(price);
             cartItem.setQuantity(quantity);
             cartItem.setIsChecked(1);
             cartItem.setDeleted(false);
-            cartItem.setStatus(item.getItemStatus());
-            cartItem.setItemImage(item.getItemImage());
+            cartItem.setStatus(item.getPackaging());
+            cartItem.setItemImage(item.getImageUrl());
 
             if(this.cartMapper.insertCart(cartItem) == 0) {
                 throw new TransactionalException();

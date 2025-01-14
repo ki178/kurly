@@ -4,7 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bhs.sssss.mappers.ReviewMapper">
     <insert id="insertReview" parameterType="com.bhs.sssss.entities.ReviewEntity">
-        INSERT INTO `test`.`review` (`writer`, `title`, `content`, `image_index`, `created_at`, `updated_at`,
+        INSERT INTO `kurly`.`review` (`writer`, `title`, `content`, `image_index`, `created_at`, `updated_at`,
         `deleted_at`)
         VALUES (#{writer}, #{title}, #{content}, #{imageIndex}, #{createdAt}, #{updatedAt}, #{deletedAt})
     </insert>

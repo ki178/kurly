@@ -1,12 +1,11 @@
 package com.bhs.sssss.controllers;
 
-import com.bhs.sssss.entities.ImageEntity;
-import com.bhs.sssss.entities.InquiryEntity;
-import com.bhs.sssss.entities.ReviewEntity;
+import com.bhs.sssss.entities.*;
 import com.bhs.sssss.results.CommonResult;
 import com.bhs.sssss.results.Result;
 import com.bhs.sssss.results.WriteResult;
 import com.bhs.sssss.services.InquiryService;
+import com.bhs.sssss.services.ItemService;
 import com.bhs.sssss.services.ReviewService;
 import com.bhs.sssss.vos.PageVo;
 import org.apache.commons.lang3.tuple.Pair;
@@ -16,10 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,15 +23,17 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/kurly")
+@RequestMapping(value = "/goods")
 public class GoodsController {
     private final InquiryService inquiryService;
     private final ReviewService reviewService;
+    private final ItemService itemService;
 
     @Autowired
-    public GoodsController(InquiryService inquiryService, ReviewService reviewService) {
+    public GoodsController(InquiryService inquiryService, ReviewService reviewService, ItemService itemService) {
         this.inquiryService = inquiryService;
         this.reviewService = reviewService;
+        this.itemService = itemService;
     }
 
     @RequestMapping(value = "/image", method = RequestMethod.GET)
@@ -67,10 +65,12 @@ public class GoodsController {
         return response.toString();
     }
 
-    @RequestMapping(value = "/index", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    @RequestMapping(value = "/detail", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getInquiriesAndReviews(
             @RequestParam(value = "inquiryPage", required = false, defaultValue = "1") int inquiryPage,
-            @RequestParam(value = "reviewPage", required = false, defaultValue = "1") int reviewPage) {
+            @RequestParam(value = "reviewPage", required = false, defaultValue = "1") int reviewPage,
+            @RequestParam(value = "itemId", required = false) String itemId,
+            @SessionAttribute(value = "member", required = false) MemberEntity member) {
 
         // 문의 사항과 리뷰 목록 가져오기
         Pair<PageVo, List<InquiryEntity>> pairInquiries = this.inquiryService.getInquiriesByPage(inquiryPage);
@@ -87,12 +87,25 @@ public class GoodsController {
             }
         }
 
-        ModelAndView modelAndView = new ModelAndView("goods/index");
+        // productId가 전달된 경우 해당 상품 정보 가져오기
+        ItemEntity item = null;
+        if (itemId != null) {
+            item = this.itemService.getItemByItemId(itemId);
+        }
+
+        ModelAndView modelAndView = new ModelAndView("/goods/detail");
         modelAndView.addObject("inquiryPageVo", pairInquiries.getLeft());
         modelAndView.addObject("reviewPageVo", pairReviews.getLeft());
         modelAndView.addObject("inquiries", pairInquiries.getRight());
         modelAndView.addObject("reviews", pairReviews.getRight());
         modelAndView.addObject("totalReviews", totalReviews);
+        modelAndView.addObject("member", member);
+
+        // 상품 정보를 모델에 추가 (productId가 있을 때만)
+        if (item != null) {
+            modelAndView.addObject("item", item);
+        }
+
         return modelAndView;
     }
 
@@ -190,6 +203,89 @@ public class GoodsController {
             response.put("result", "success");
         } else {
             response.put("result", "failure");
+        }
+        return response.toString();
+    }
+
+    @RequestMapping(value = "/crawl", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String crawlAndSave(@RequestParam(value = "itemId") String itemId) throws IOException {
+        JSONObject response = new JSONObject();
+        if (itemId == null || itemId.isEmpty()) {
+            response.put("result", "failure");
+            response.put("message", "Invalid ItemId");
+            return response.toString();
+        }
+
+        ItemEntity item = this.itemService.crawlAndSaveKurly(itemId);
+        if (item != null) {
+            response.put("result", "success");
+            response.put("data", item);
+        } else {
+            response.put("result", "failure");
+            response.put("message", "Failed to crawl data or save item.");
+        }
+        return response.toString();
+    }
+
+    @RequestMapping(value = "/crawl", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String crawlAndSaveKurlyWithGet(@RequestParam("itemId") String itemId) {
+        JSONObject response = new JSONObject();
+
+        // 크롤링 로직 호출
+        try {
+            ItemEntity item = this.itemService.crawlAndSaveKurly(itemId); // 실제 크롤링 실행
+            if (item != null) {
+                response.put("result", "success");
+                response.put("data", item); // 크롤링된 데이터 반환
+            } else {
+                response.put("result", "failure");
+                response.put("message", "Failed to crawl data.");
+            }
+        } catch (IOException e) {
+            response.put("result", "failure");
+            response.put("message", "Error during crawling: " + e.getMessage());
+        }
+
+        return response.toString(); // JSON 응답 반환
+    }
+
+    @RequestMapping(value = "/manual", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String saveManualItem(@RequestBody ItemEntity itemEntity) {
+        JSONObject response = new JSONObject();
+
+        if (itemEntity == null) {
+            response.put("result", "failure");
+            response.put("message", "Invalid item data");
+            return response.toString();
+        }
+        itemEntity.setIsManual(true);
+        Result result = itemService.saveManualItem(itemEntity);
+        response.put("result", result.name().toLowerCase());
+        return response.toString();
+    }
+
+    @RequestMapping(value = "/items", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String getAllItems() {
+        JSONObject response = new JSONObject();
+        response.put("items", this.itemService.getAllItems());
+        return response.toString();
+    }
+
+    @RequestMapping(value = "/item", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String getItemByIndex(@RequestParam(value = "index") int index) {
+        JSONObject response = new JSONObject();
+        ItemEntity item = this.itemService.getItemByIndex(index);
+        if (item != null) {
+            response.put("result", "success");
+            response.put("data", item);
+        } else {
+            response.put("result", "failure");
+            response.put("message", "Item not found.");
         }
         return response.toString();
     }

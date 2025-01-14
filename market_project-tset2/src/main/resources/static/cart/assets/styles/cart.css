@@ -665,8 +665,9 @@ i {
   font-weight: 700;
   font-size: 1rem;
 }
-#list > .item-container > .item > .--item > .item-detail > .item-price-details > .item-price-cover > .item-price > ._text-unDiscount {
+#list > .item-container > .item > .--item > .item-detail > .item-price-details > .item-price-cover > .item-price > .costPrice {
   color: #bcc4cc;
+  margin-left: 0.5rem;
   text-decoration: line-through;
   display: -webkit-box;
   overflow: hidden;

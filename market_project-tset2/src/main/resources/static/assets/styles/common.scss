@@ -967,16 +967,91 @@ body {
             font-size: 1rem;
           }
         }
+
+        > .inquiry-container {
+          display: flex;
+          flex-direction: column;
+
+          > .inquiry-box {
+            display: flex;
+            flex-direction: row;
+
+            > .button {
+              display: block;
+              width: 8.75rem;
+              height: 2.5rem;
+              border: 0.0625rem solid rgb(226, 226, 226);
+              border-radius: 0.1875rem;
+              line-height: 2.4375rem;
+              text-align: center;
+              margin-right: 1rem;
+              margin-bottom: 1rem;
+              font-size: 0.875rem;
+              color: #333333;
+              pointer-events: none;
+              cursor: default;
+            }
+
+            > .text {
+              margin-top: 0.125rem;
+              color: rgb(153, 153, 153);
+              letter-spacing: -0.031rem;
+              line-height: 1.05rem;
+
+              > .svg {
+                margin: 0 0.375rem;
+              }
+            }
+          }
+        }
+
+        > .notice {
+          font-size: 0.75rem;
+          line-height: 1.125rem;
+          color: rgb(153, 153, 153);
+        }
       }
 
       > .right {
         display: flex;
         flex-direction: column;
+        width: 30rem;
+        padding: 2rem 0 2rem 0;
 
-        > .info-box {
-          width: 32.5rem;
-          height: 18.5rem;
-          background-color: rgb(249, 249, 249);
+        > .title {
+          font-size: 1.125rem;
+          font-weight: 500;
+          margin-bottom: 2rem;
+        }
+
+        > .info-box22 {
+          font-weight: 400;
+          font-size: 0.75rem;
+          line-height: 1.125rem;
+          color: rgb(153, 153, 153);
+          margin-bottom: 2.5rem;
+
+          > .highlight {
+            color: rgb(95, 0, 128);
+          }
+        }
+
+        > .icon-menu {
+          display: flex;
+          list-style: none;
+
+          > .item333 {
+            display: block;
+            width: 1.875rem;
+            height: 1.875rem;
+            margin-right: 0.625rem;
+            box-sizing: border-box;
+
+            > img {
+              width: 1.875rem;
+              height: 1.875rem;
+            }
+          }
         }
       }
     }

@@ -369,11 +369,11 @@
                     </ul>
                 </div>
                 <div class="item-container">
-                    <a th:href="@{${item.getItemId()}}" class="item" th:each="item : ${items}">
+                    <a th:href="@{/goods/detail (itemId=${item.getItemId()})}" class="item" th:each="item : ${items}">
                         <div class="img-wrapper">
                             <div class="wrapper2">
                                 <span class="wrapper3">
-                                    <img th:src="${item.getItemImage()}" th:alt="${item.getItemTitle()}" class="image">
+                                    <img th:src="${item.getImageUrl()}" th:alt="${item.getItemTitle()}" class="image">
                                 </span>
                                 <div class="sticker-wrapper">
                                     <div class="sticker-box">
@@ -399,12 +399,12 @@
                             <p class="subtitle" th:text="${item.getSubTitle()}"></p>
                             <label>
                                 <input type="hidden" class="item-id" name="item-id" th:value="${item.getItemId()}">
-                                <input type="hidden" class="item-status" name="item-status" th:value="${item.getItemStatus()}">
+                                <input type="hidden" class="item-status" name="item-status" th:value="${item.getPackaging()}">
                             </label>
                             <div class="discount-price">
                                 <div class="dimmed-price">
                                     <span class="price-number" th:text="${item.getPrice()}"></span>
-                                    <span th:if="${item.getPrice() != null}" class="won">원</span>
+                                    <span th:if="${!item.getPrice().isEmpty()}" class="won" th:text="원"></span>
                                 </div>
                                 <div class="discount">
                                     <span class="discount-rate" th:text="${item.getDiscountRate()}"></span>

@@ -26,7 +26,8 @@
           AND `is_checked` = 1
     </select>
 
-    <select id="selectAllPayLoads" resultType="com.bhs.sssss.entities.PayLoadEntity">
+    <select id="selectAllPayLoads"
+            resultType="com.bhs.sssss.entities.PayLoadEntity">
         SELECT `index`          AS `index`,
                `cart_index`     AS `cartIndex`,
                `member_id`      AS `memberId`,
@@ -39,7 +40,7 @@
                `purchase_day`   AS `purchaseDay`
         FROM `kurly`.`pay_record`
         WHERE `member_id` = #{id}
-        ORDER BY pay_record.`purchase_day` DESC
+        ORDER BY `purchase_day` DESC
     </select>
 
 
@@ -51,8 +52,8 @@
                `item_price` AS `itemPrice`,
                `quantity`   AS `quantity`
         FROM kurly.`carts`
-        WHERE item_id = #{itemId}
-        AND `member_id` = #{id}
+        WHERE `item_id` = #{itemId}
+          AND `member_id` = #{id}
     </select>
 
     <select id="getPayIndexByCartIndex" resultType="java.lang.Integer">

@@ -19,11 +19,11 @@
         <div class="swiper2 swiper-initialized swiper-horizontal swiper-pointer-events">
             <div class="swiper-wrapper wrapper2">
                 <div th:each="item, count : ${items}" th:if="${item.getIndex()} > 40 and ${item.getIndex()} < 61" class="swiper-slide slide2">
-                    <a href="#" class="link">
+                    <a th:href="@{/goods/detail (itemId=${item.getItemId()})}" class="link">
                         <div class="img-wrapper">
                             <div class="img-box">
                                 <div class="img-box2">
-                                    <span><img alt="" th:src="@{${item.getItemImage()}}" decoding="async" data-nimg="fill" class="img">
+                                    <span><img alt="" th:src="@{${item.getImageUrl()}}" decoding="async" data-nimg="fill" class="img">
                                     </span>
                                     <div class="sticker-wrapper sticker2">
                                         <div class="sticker-box">
@@ -42,7 +42,7 @@
                                     </div>
                                     <label>
                                         <input type="hidden" class="item-id" name="item-id" th:value="${item.getItemId()}">
-                                        <input type="hidden" class="item-status" name="item-status" th:value="${item.getItemStatus()}">
+                                        <input type="hidden" class="item-status" name="item-status" th:value="${item.getPackaging()}">
                                     </label>
                                     <div class="product-price discount-price">
                                         <div>

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,18 +73,19 @@ public class PayService {
         return false;
     }
 
-
+    // Comparator : getPurchaseDay(날짜) 기준으로 정렬
+    // Collectors : 받은 결제 내역을 리스트(List)나 맵(Map) 형태로 묶기 위해
+    // reversed() : 내림차순 정렬
+    // DateTimeFormatter.ofPattern : Java의 날짜와 시간 데이터를 특정 포맷의 문자열로 변환하거나 문자열을 날짜와 시간 객체로 변환하는 데 사용됩니다. 즉, 날짜(LocalDateTime)를 특정 형식의 문자열로 포맷팅하거나 해석하는 역할을 합니다.
     public Map<LocalDateTime, List<PayLoadEntity>> getAllPayByCartId(MemberEntity member) {
         List<PayLoadEntity> payLoadList = this.payMapper.selectAllPayLoads(member.getId());
+
         return payLoadList.stream()
                 .collect(Collectors.groupingBy(
                         PayLoadEntity::getPurchaseDay,
-                        LinkedHashMap::new,  // LinkedHashMap으로 순서 유지
+                        LinkedHashMap::new,
                         Collectors.toList()
                 ));
     }
 
 }
-
-
-

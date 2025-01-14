@@ -6,8 +6,8 @@
 
     <insert id="insertCart"
             parameterType="com.bhs.sssss.entities.CartEntity">
-        INSERT INTO `kurly`.`carts` (`member_id`, `cart_id`, `item_id`, `item_name`, `item_price`, `quantity`, `is_checked`, `is_deleted`, `status`, `item_image`)
-        VALUES (#{memberId}, #{cartId}, #{itemId}, #{itemName}, #{itemPrice}, #{quantity}, #{isChecked}, #{isDeleted}, #{status}, #{itemImage})
+        INSERT INTO `kurly`.`carts` (`member_id`, `cart_id`, `item_id`, `item_name`, `cost_price`, `item_price`, `quantity`, `is_checked`, `is_deleted`, `status`, `item_image`)
+        VALUES (#{memberId}, #{cartId}, #{itemId}, #{itemName}, #{costPrice}, #{itemPrice}, #{quantity}, #{isChecked}, #{isDeleted}, #{status}, #{itemImage})
     </insert>
 
     <select id="selectCartByIndex"
@@ -17,6 +17,7 @@
                `cart_id`    AS `cartId`,
                `item_id`    AS `itemId`,
                `item_name`  AS `itemName`,
+               `cost_price` AS `costPrice`,
                `item_price` AS `itemPrice`,
                `quantity`   AS `quantity`
         FROM `kurly`.`carts`
@@ -31,6 +32,7 @@
                `cart_id`    AS `cartId`,
                `item_id`    AS `itemId`,
                `item_name`  AS `itemName`,
+               `cost_price` AS `costPrice`,
                `item_price` AS `itemPrice`,
                `quantity`   AS `quantity`
         FROM `kurly`.`carts`
@@ -44,6 +46,7 @@
                `cart_id`    AS `cartId`,
                `item_id`    AS `itemId`,
                `item_name`  AS `itemName`,
+               `cost_price` AS `costPrice`,
                `item_price` AS `itemPrice`,
                `quantity`   AS `quantity`,
                `is_checked` AS `isChecked`,
@@ -62,6 +65,7 @@
                `cart_id`    AS `cartId`,
                `item_id`    AS `itemId`,
                `item_name`  AS `itemName`,
+               `cost_price` AS `costPrice`,
                `item_price` AS `itemPrice`,
                `quantity`   AS `quantity`,
                `is_checked` AS `isChecked`,
@@ -98,7 +102,7 @@
         SELECT COUNT(*)
         FROM `kurly`.`carts`
         WHERE `is_deleted` = 0
-        AND `member_id` = #{id}
+          AND `member_id` = #{id}
     </select>
     <select id="countCheckedItems" resultType="_int">
         SELECT COUNT(*)
@@ -122,6 +126,7 @@
                `cart_id`    AS `cartId`,
                `item_id`    AS `itemId`,
                `item_name`  AS `itemName`,
+               `cost_price` AS `costPrice`,
                `item_price` AS `itemPrice`,
                `quantity`   AS `quantity`,
                `is_checked` AS `isChecked`,
