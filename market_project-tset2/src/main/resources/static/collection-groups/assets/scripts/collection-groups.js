@@ -79,6 +79,25 @@ $cartInButton.forEach((x) => x.onclick = (e) => {
                         alert('오류');
                         return;
                     }
+                    const response = JSON.parse(xhr.responseText);
+                    if (response['result'] === 'failure') {
+                        Dialog.show({
+                            content: `로그인 하셔야 본 서비스를 이용하실 수 있습니다.`,
+                            buttons: [{
+                                text: '확인',
+                                onclick: ($dialog) => Dialog.hide($dialog)
+                            }]
+                        })
+                    }
+                    if(response['result'] === 'success'){
+                        Dialog.show({
+                            content: `장바구니에 담았습니다.`,
+                            buttons: [{
+                                text: '확인',
+                                onclick: ($dialog) => Dialog.hide($dialog)
+                            }]
+                        })
+                    }
                 };
                 xhr.open('POST', '/cart/in');
                 xhr.send(formData);

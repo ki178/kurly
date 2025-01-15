@@ -7,7 +7,7 @@
     <insert id="insertCart"
             parameterType="com.bhs.sssss.entities.CartEntity">
         INSERT INTO `kurly`.`carts` (`member_id`, `cart_id`, `item_id`, `item_name`, `cost_price`, `item_price`, `quantity`, `is_checked`, `is_deleted`, `status`, `item_image`)
-        VALUES (#{memberId}, #{cartId}, #{itemId}, #{itemName}, #{costPrice}, #{itemPrice}, #{quantity}, #{isChecked}, #{isDeleted}, #{status}, #{itemImage})
+        VALUES (#{memberId}, #{cartId}, #{itemId}, #{itemName}, #{costPrice} ,#{itemPrice}, #{quantity}, #{isChecked}, #{isDeleted}, #{status}, #{itemImage})
     </insert>
 
     <select id="selectCartByIndex"

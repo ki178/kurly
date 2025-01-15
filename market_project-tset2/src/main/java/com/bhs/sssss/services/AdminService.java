@@ -2,6 +2,7 @@ package com.bhs.sssss.services;
 
 import com.bhs.sssss.entities.ItemEntity;
 import com.bhs.sssss.entities.MemberEntity;
+import com.bhs.sssss.exceptions.TransactionalException;
 import com.bhs.sssss.mappers.MemberMapper;
 import com.bhs.sssss.results.CommonResult;
 import com.bhs.sssss.results.Result;
@@ -12,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Console;
+import java.time.LocalDateTime;
 
 @Service
 public class AdminService {
@@ -67,5 +70,23 @@ public class AdminService {
 
     public MemberEntity getMemberById(String id){
         return this.memberMapper.selectUserByIdIncludeDeleted(id);
+    }
+
+    @Transactional
+    public Result modifySuspended(String id, String isSuspended){
+        if(id == null || isSuspended == null) {
+            return CommonResult.FAILURE;
+        }
+
+        MemberEntity member = this.memberMapper.selectUserById(id);
+
+        member.setSuspended(Boolean.parseBoolean(isSuspended));
+        member.setUpdatedAt(LocalDateTime.now());
+
+        if(this.memberMapper.updateMember(member) == 0) {
+            throw new TransactionalException();
+        }
+
+        return CommonResult.SUCCESS;
     }
 }

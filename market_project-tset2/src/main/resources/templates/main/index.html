@@ -19,7 +19,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 </head>
 <body>
-<div th:replace="~{/fragments/header :: headerFragment}"></div>
+<div th:replace="~{fragments/header :: headerFragment}"></div>
 
 <main class="-spring" id="main">
     <div class="banner-container">
@@ -49,9 +49,9 @@
         </div>
     </div>
 
-    <div th:replace="~{/fragments/itembox1 :: itembox1Fragment (items=${items}, title='👑올해 마지막 칼리픽특가!', subtitle='놓치지 말고 담아가세요')}"></div>
+    <div th:replace="~{fragments/itembox1 :: itembox1Fragment (items=${items}, title='👑올해 첫 칼리픽특가!', subtitle='놓치지 말고 담아가세요')}"></div>
 
-    <div th:replace="~{/fragments/itembox2 :: itembox2Fragment (items=${items})}"></div>
+    <div th:replace="~{fragments/itembox2 :: itembox2Fragment (items=${items})}"></div>
 
     <div class="add">
         <a href="#" class="link">
@@ -59,13 +59,13 @@
         </a>
     </div>
 
-    <div th:replace="~{/fragments/itembox1 :: itembox1Fragment (items=${items}, title='✨놓치면 후회할 가격', subtitle='')}"></div>
+    <div th:replace="~{fragments/itembox1 :: itembox1Fragment (items=${items}, title='✨놓치면 후회할 가격', subtitle='')}"></div>
 
-    <div th:replace="~{/fragments/itembox3 :: itembox3Fragment (items=${items})}"></div>
+    <div th:replace="~{fragments/itembox3 :: itembox3Fragment (items=${items})}"></div>
 
 </main>
 
 
-<div th:replace="~{/fragments/footer :: footerFragment}"></div>
+<div th:replace="~{fragments/footer :: footerFragment}"></div>
 </body>
 </html>

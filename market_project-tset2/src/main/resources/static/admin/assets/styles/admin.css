@@ -211,6 +211,28 @@ body {
   height: 1.25rem;
   border: none;
 }
+#main > .right > .content-container > .content-box > .member-container > .member-list > .member-table > tbody > tr > td.suspended-row, #main > .right > .content-container > .content-box > .member-container > .member-list > .member-table > tbody > tr th.suspended-row {
+  border: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 1.5rem;
+}
+#main > .right > .content-container > .content-box > .member-container > .member-list > .member-table > tbody > tr > td.suspended-row > button, #main > .right > .content-container > .content-box > .member-container > .member-list > .member-table > tbody > tr th.suspended-row > button {
+  color: rgb(170, 170, 170);
+  border-color: rgb(170, 170, 170);
+  font-size: 0.7rem;
+  font-weight: 500;
+  width: 3.25rem;
+  height: 1.25rem;
+}
+#main > .right > .content-container > .content-box > .member-container > .member-list > .member-table > tbody > tr > td.suspended-row > button.active, #main > .right > .content-container > .content-box > .member-container > .member-list > .member-table > tbody > tr th.suspended-row > button.active {
+  border: none;
+  color: white;
+  background-color: #5f0080;
+}
 #main > .right > .content-container > .content-box > .member-container > .member-list > #search-form {
   margin: 0.75rem auto 0 auto;
   display: flex;
@@ -267,6 +289,22 @@ body {
 #main > .right > .content-container > .content-box > .member-container > .page-container > a.active {
   background-color: rgb(247, 247, 247);
   color: #5f0080;
+}
+#main > .right > .content-container > .content-box > .button-container2 {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+#main > .right > .content-container > .content-box > .button-container2 > a > button {
+  width: 10rem;
+  height: 2.75rem;
+}
+#main > .right > .content-container > .content-box > .button-container2 > button {
+  width: 10rem;
+  height: 2.75rem;
 }
 #main > .right > .content-container > .content-box > form > .input-container {
   padding: 0.4375rem;

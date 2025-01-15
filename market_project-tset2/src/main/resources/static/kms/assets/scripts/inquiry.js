@@ -33,7 +33,7 @@ $inquiryForm.onsubmit = (e) => {
                 $result.innerText = '문의를 성공적으로 작성하였습니다.';
                 $result.style.color = 'green';
                 // 작성이 성공한 경우 게시글 리스트 페이지로 리다이렉트
-                window.location.href = '/kurly/index?page=1';
+                window.location.href = '/goods/index?page=1';
                 break;
         }
     };

@@ -1,8 +1,6 @@
 package com.bhs.sssss.controllers;
 
-import com.bhs.sssss.entities.CategoryEntity;
 import com.bhs.sssss.services.ItemService;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -36,7 +34,7 @@ public class ItemController {
 
     @RequestMapping(value = "/sub-categories", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String getSubCategories(@RequestParam(value = "categoryId", required = true) String categoryId ) {
+    public String getSubCategories(@RequestParam(value = "categoryId", required = false) String categoryId ) {
         JSONObject response = new JSONObject();
         if(this.itemService.getCategories() != null) {
             response.put("subCategories", this.itemService.getSubCategoriesById(categoryId));

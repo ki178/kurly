@@ -24,10 +24,10 @@
     </script>
 </head>
 <body>
-<div th:replace="~{/fragments/header :: headerFragment}"></div>
+<div th:replace="~{fragments/header :: headerFragment}"></div>
 
 <main id="main">
-    <div th:replace="~{/fragments/mypage-left :: leftFragment}"></div>
+    <div th:replace="~{fragments/mypage-left :: leftFragment}"></div>
 
     <div class="right">
         <div id="pay-record" th:if="${member != null}">
@@ -68,14 +68,14 @@
                             <div class="line"></div>
                             <div class="item" th:each="item : ${entry.value}">
                                 <div class="item-box">
-                                    <a th:href="@{/goods/detail (itemId=${item.getPayItemId()})}">
+                                    <a href="#">
                                         <img th:src="${item.getItemImage()}" th:alt="${item.getPayItemName()}" class="img">
                                     </a>
                                     <div class="item-detail">
                                         <div class="delivery">
                                             <p class="_text">샛별배송</p>
                                         </div>
-                                        <a th:href="@{/goods/detail (itemId=${item.getPayItemId()})}">
+                                        <a href="#">
                                             <p class="_text" th:text="${item.getPayItemName()}"></p>
                                         </a>
                                         <div class="item-price-container">
@@ -97,6 +97,6 @@
 
 
 
-<div th:replace="~{/fragments/footer :: footerFragment}"></div>
+<div th:replace="~{fragments/footer :: footerFragment}"></div>
 </body>
 </html>

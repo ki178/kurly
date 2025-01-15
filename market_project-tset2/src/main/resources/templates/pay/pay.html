@@ -24,7 +24,7 @@
     </script>
 </head>
 <body th:if="${member != null}">
-<div th:replace="~{/fragments/header :: headerFragment}"></div>
+<div th:replace="~{fragments/header :: headerFragment}"></div>
 
 <div id="main">
             <div class="pay-order">
@@ -58,7 +58,7 @@
                                             </div>
                                             <div class="item-price">
                                                 <p class="_text" th:text="|${#numbers.formatInteger(item.getItemPrice() * item.getQuantity(), 3, 'COMMA')} 원|"></p>
-                                                <span class="costPrice"></span>
+                                                <span class="_text-unDiscount"></span>
                                                 <div class="line"></div>
                                                 <p class="quantity" th:text="|${item.getQuantity()} 개|"></p>
                                             </div>
@@ -222,6 +222,6 @@
             </div>
         </div>
 
-<div th:replace="~{/fragments/footer :: footerFragment}"></div>
+<div th:replace="~{fragments/footer :: footerFragment}"></div>
 </body>
 </html>

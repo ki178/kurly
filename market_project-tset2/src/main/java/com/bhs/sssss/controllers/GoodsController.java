@@ -60,7 +60,7 @@ public class GoodsController {
         JSONObject response = new JSONObject();
         boolean result = this.reviewService.uploadImage(image);
         if (result) {
-            response.put("url", "/kurly/image?index=" + image.getIndex());
+            response.put("url", "/goods/image?index=" + image.getIndex());
         }
         return response.toString();
     }
@@ -93,7 +93,7 @@ public class GoodsController {
             item = this.itemService.getItemByItemId(itemId);
         }
 
-        ModelAndView modelAndView = new ModelAndView("/goods/detail");
+        ModelAndView modelAndView = new ModelAndView("goods/detail");
         modelAndView.addObject("inquiryPageVo", pairInquiries.getLeft());
         modelAndView.addObject("reviewPageVo", pairReviews.getLeft());
         modelAndView.addObject("inquiries", pairInquiries.getRight());
@@ -187,7 +187,7 @@ public class GoodsController {
             modelAndView.addObject("review", review); // 리뷰 객체를 HTML로 전달
             modelAndView.setViewName("goods/modify"); // "goods/modify.html"로 이동
         } else {
-            modelAndView.setViewName("redirect:/kurly/index");
+            modelAndView.setViewName("redirect:/goods/index");
         }
         // 기본 뷰 페이지 설정
         return modelAndView;

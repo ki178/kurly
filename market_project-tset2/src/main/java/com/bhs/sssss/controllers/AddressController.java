@@ -13,7 +13,7 @@ public class AddressController {
     @RequestMapping(value = "/shipping-address", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getShippingAddress() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/address/shipping-address");
+        modelAndView.setViewName("address/shipping-address");
         return modelAndView;
     }
 }

@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (response.result === 'success') {
                         $result.innerText = '후기를 성공적으로 작성하였습니다.';
                         $result.style.color = 'green';
-                        window.location.href = '/kurly/index?page=1';
+                        window.location.href = '/goods/detail?page=1';
                     } else {
                         $result.innerText = '후기 작성에 실패하였습니다.';
                         $result.style.color = 'red';

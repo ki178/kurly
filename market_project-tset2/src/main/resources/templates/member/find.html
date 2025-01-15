@@ -24,7 +24,7 @@
     <title>칼리 - 마켓칼리</title>
 </head>
 <body>
-<div th:replace="~{/fragments/header :: headerFragment}"></div>
+<div th:replace="~{fragments/header :: headerFragment}"></div>
 <main id="main">
     <div class="title">
         <span class="title-text" th:text="${type} == 'id' ? '아이디 찾기' : '비밀번호 찾기'"></span>
@@ -88,6 +88,6 @@
         </div>
     </div>
 </div>
-<div th:replace="~{/fragments/footer :: footerFragment}"></div>
+<div th:replace="~{fragments/footer :: footerFragment}"></div>
 </body>
 </html>

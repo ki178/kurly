@@ -252,6 +252,31 @@ body{
                       height: 1.25rem;
                       border: none;
                     }
+
+                    &.suspended-row {
+                      border: none;
+                      display: flex;
+                      flex-direction: row;
+                      align-items: center;
+                      justify-content: center;
+                      gap: 0.5rem;
+                      height: 1.5rem;
+
+                      > button {
+                        color: rgb(170, 170, 170);
+                        border-color: rgb(170, 170, 170);
+                        font-size: 0.7rem;
+                        font-weight: 500;
+                        width: 3.25rem;
+                        height: 1.25rem;
+
+                        &.active {
+                          border: none;
+                          color: white;
+                          background-color: #5f0080;
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -323,6 +348,26 @@ body{
               }
             }
           }
+        }
+
+        > .button-container2 {
+          margin-top: 1rem;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+
+          > a > button {
+            width: 10rem;
+            height: 2.75rem;
+          }
+
+          > button {
+            width: 10rem;
+            height: 2.75rem;
+          }
+
         }
 
         > form {

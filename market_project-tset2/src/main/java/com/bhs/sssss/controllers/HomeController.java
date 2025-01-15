@@ -23,8 +23,13 @@ public class HomeController {
         this.itemService = itemService;
     }
 
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String getIndex() {
+        return "redirect:/main";
+    }
+
     @RequestMapping(value = "/main", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getIndex(@SessionAttribute(value = "member", required = false)MemberEntity member) {
+    public ModelAndView getMain(@SessionAttribute(value = "member", required = false)MemberEntity member) {
         ItemEntity[] items = this.itemService.getItems();
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("items", items);
@@ -37,7 +42,7 @@ public class HomeController {
     public ModelAndView getMarketBenefit(@SessionAttribute(value = "member", required = false)MemberEntity member) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("member", member);
-        modelAndView.setViewName("/market-benefit/market-benefit");
+        modelAndView.setViewName("market-benefit/market-benefit");
         return modelAndView;
     }
 

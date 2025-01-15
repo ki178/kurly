@@ -123,7 +123,7 @@ public class MypageController {
         Map<LocalDateTime, List<PayLoadEntity>> groupedItems = this.payService.getAllPayByCartId(member);
         mav.addObject("member", member);
         mav.addObject("items", groupedItems);
-        mav.setViewName("/mypage/pay-record");
+        mav.setViewName("mypage/pay-record");
         return mav;
     }
 

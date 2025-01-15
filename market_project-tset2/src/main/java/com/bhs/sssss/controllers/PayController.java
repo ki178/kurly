@@ -5,7 +5,6 @@ import com.bhs.sssss.entities.CartEntity;
 import com.bhs.sssss.entities.MemberEntity;
 import com.bhs.sssss.entities.PayLoadEntity;
 import com.bhs.sssss.services.PayService;
-import jakarta.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +31,7 @@ public class PayController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView getPayIndex(@SessionAttribute(value = "member", required = false) MemberEntity member, HttpServletResponse response) throws IOException {
-        if(member == null){
-            response.setContentType("text/html;charset=UTF-8");
-            PrintWriter out = response.getWriter();
-            out.println("<script>alert('장시간 동안 움직임이 없어 로그아웃 되었습니다. 로그인 창으로 이동합니다.'); location.href='/member/login';</script>");
-            out.flush();
-        }
+    public ModelAndView getPayIndex(@SessionAttribute(value = "member", required = false) MemberEntity member) {
         ModelAndView mav = new ModelAndView();
         List<CartEntity> items = this.payService.getAllPay(member);
         mav.addObject("items", items);

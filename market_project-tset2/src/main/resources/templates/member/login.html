@@ -25,7 +25,7 @@
     <title>로그인 - 칼리</title>
 </head>
 <body>
-<div th:replace="~{/fragments/header :: headerFragment}"></div>
+<div th:replace="~{fragments/header :: headerFragment}"></div>
 <main id="main" th:if="${session.member == null}">
     <div class="title">
         <span class="title-text">로그인</span>
@@ -60,6 +60,6 @@
         </form>
     </div>
 </main>
-<div th:replace="~{/fragments/footer :: footerFragment}"></div>
+<div th:replace="~{fragments/footer :: footerFragment}"></div>
 </body>
 </html>

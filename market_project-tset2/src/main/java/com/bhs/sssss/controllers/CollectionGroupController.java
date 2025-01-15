@@ -33,7 +33,7 @@ public class CollectionGroupController {
         modelAndView.addObject("pageVo", pair.getLeft());
         modelAndView.addObject("items", pair.getRight());
         modelAndView.addObject("member", member);
-        modelAndView.setViewName("/collection-groups/market-best");
+        modelAndView.setViewName("collection-groups/market-best");
         return modelAndView;
     }
 
@@ -46,7 +46,7 @@ public class CollectionGroupController {
         modelAndView.addObject("pageVo", pair.getLeft());
         modelAndView.addObject("items", pair.getRight());
         modelAndView.addObject("member", member);
-        modelAndView.setViewName("/collection-groups/market-newproduct");
+        modelAndView.setViewName("collection-groups/market-newproduct");
         return modelAndView;
     }
 
@@ -58,7 +58,7 @@ public class CollectionGroupController {
         modelAndView.addObject("pageVo", pair.getLeft());
         modelAndView.addObject("items", pair.getRight());
         modelAndView.addObject("member", member);
-        modelAndView.setViewName("/collection-groups/market-sales");
+        modelAndView.setViewName("collection-groups/market-sales");
         return modelAndView;
     }
 
@@ -71,7 +71,7 @@ public class CollectionGroupController {
         modelAndView.addObject("pageVo", pair.getLeft());
         modelAndView.addObject("items", pair.getRight());
         modelAndView.addObject("member", member);
-        modelAndView.setViewName("/collection-groups/search");
+        modelAndView.setViewName("collection-groups/search");
         return modelAndView;
     }
 

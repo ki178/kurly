@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const response = JSON.parse(xhr.responseText);
                     if (response.result === 'success') {
                         alert('수정이 완료되었습니다.');
-                        window.location.href = '/kurly/index';
+                        window.location.href = '/goods/index';
                     } else {
                         alert('수정에 실패했습니다.');
                     }
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
         };
-        xhr.open('PATCH', '/kurly/modify');
+        xhr.open('PATCH', '/goods/modify');
         xhr.send(formData);
     };
 });

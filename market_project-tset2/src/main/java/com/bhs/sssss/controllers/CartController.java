@@ -109,9 +109,7 @@ public class CartController {
     @RequestMapping(value = "/totalPrice", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String calculateTotalPrice( @RequestParam(value = "index", required = false) List<Integer> index,
-                                       @RequestParam(value = "itemPrice", required = false) List<Integer> itemPrices,
-                                       @RequestParam(value = "costPrice", required = false) List<Integer> costPrices,
-                                       @RequestParam(value = "quantities") List<Integer> quantities) {
+                                       @RequestParam(value = "itemPrice", required = false) List<Integer> itemPrices) {
         JSONObject response = new JSONObject();
         if (index == null || itemPrices == null || index.isEmpty() || itemPrices.isEmpty()) {
             response.put("totalPrice", 0);
@@ -124,9 +122,8 @@ public class CartController {
                 response.put("error", "입력크기가 일치하지 않습니다");
                 return response.toString();
             }
-            Map<String, Integer> totalPrice = this.cartService.calculateTotalPrice(index, itemPrices, costPrices, quantities);
-            response.put("totalItemPrice", totalPrice.get("totalItemPrice"));
-            response.put("totalDiscount", totalPrice.get("totalDiscount"));
+            int totalPrice = this.cartService.calculateTotalPrice(index, itemPrices);
+            response.put("totalPrice", totalPrice);
         }catch (NumberFormatException e) {
             response.put("error","잘못된 숫자 형식입니다.");
         }

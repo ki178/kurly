@@ -438,7 +438,7 @@ setTimeout(() => {
         xhr.send();
 
     }));
-}, 100);
+}, 1000);
 //endregion
 
 

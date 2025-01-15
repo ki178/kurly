@@ -1,6 +1,5 @@
 package com.bhs.sssss.controllers;
 
-import com.bhs.sssss.entities.CartEntity;
 import com.bhs.sssss.entities.EmailTokenEntity;
 import com.bhs.sssss.entities.MemberEntity;
 import com.bhs.sssss.results.CommonResult;
@@ -12,7 +11,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,7 +57,7 @@ public class MemberController {
     @RequestMapping(value = "/signup", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getSignup() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/member/signup");
+        modelAndView.setViewName("member/signup");
         return modelAndView;
     }
 

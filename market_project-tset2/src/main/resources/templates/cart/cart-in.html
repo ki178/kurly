@@ -18,7 +18,7 @@
     <title>칼리 - 마켓칼리</title>
 </head>
 <body>
-<div th:replace="~{/fragments/header :: headerFragment}"></div>
+<div th:replace="~{fragments/header :: headerFragment}"></div>
 
 <div id="main">
             <div class="cart-main">
@@ -143,7 +143,7 @@
                                             </button>
                                         </div>
                                         <div class="item-detail">
-                                            <a th:href="@{/goods/detail (itemId=${item.getItemId()})}">
+                                            <a href="#">
                                                 <div class="item-name">
                                                     <p class="_text item_name"
                                                        th:name="itemName"
@@ -227,11 +227,6 @@
                                                            th:name="itemPrice"
                                                            th:text="|${#numbers.formatInteger(item.getItemPrice() * item.getQuantity(), 3, 'COMMA')} 원|"
                                                            th:data-price="${item.getItemPrice()}"></p>
-                                                        <p class="_text costPrice"
-                                                        th:name="costPrice"
-                                                        th:text="|${#numbers.formatInteger(item.getCostPrice() * item.getQuantity(), 3, 'COMMA')} 원|">
-
-                                                        </p>
                                                     </div>
                                                     <div class="quantity">
                                                         <button class="minus" data-testid="stepper-button-Minus">
@@ -310,7 +305,7 @@
                                 </div>
                                 <div class="pay">
                                     <p class="text">상품할인금액</p>
-                                    <p class="price color"> 원</p>
+                                    <p class="price color">0 원</p>
                                 </div>
                                 <div class="pay">
                                     <p class="text">배송비</p>
@@ -334,6 +329,6 @@
             </div>
         </div>
 
-<div th:replace="~{/fragments/footer :: footerFragment}"></div>
+<div th:replace="~{fragments/footer :: footerFragment}"></div>
 </body>
 </html>

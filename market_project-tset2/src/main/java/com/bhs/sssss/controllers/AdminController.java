@@ -29,7 +29,7 @@ public class AdminController {
     public ModelAndView getAdmin(@SessionAttribute(value = "member", required = false) MemberEntity member) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("member", member);
-        modelAndView.setViewName("/admin/admin");
+        modelAndView.setViewName("admin/admin");
         return modelAndView;
     }
 
@@ -50,7 +50,7 @@ public class AdminController {
         }
 
         modelAndView.addObject("member", member);
-        modelAndView.setViewName("/admin/member-management");
+        modelAndView.setViewName("admin/member-management");
         return modelAndView;
     }
 
@@ -61,7 +61,7 @@ public class AdminController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("user", user);
         modelAndView.addObject("member", member);
-        modelAndView.setViewName("/admin/member-detail");
+        modelAndView.setViewName("admin/member-detail");
         return modelAndView;
     }
 
@@ -70,6 +70,16 @@ public class AdminController {
     public String postPasswordCheck(@SessionAttribute(value = "member", required = false) MemberEntity member,
                                    @RequestParam(value = "password", required = false) String password) {
         Result result = this.adminService.passwordCheck(member, password);
+        JSONObject response = new JSONObject();
+        response.put(Result.NAME, result.nameToLower());
+        return response.toString();
+    }
+
+    @RequestMapping(value = "/modify-suspended", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String patchModifySuspended(@RequestParam(value = "id", required = false) String id,
+                                       @RequestParam(value = "isSuspended", required = false) String isSuspended) {
+        Result result = this.adminService.modifySuspended(id, isSuspended);
         JSONObject response = new JSONObject();
         response.put(Result.NAME, result.nameToLower());
         return response.toString();

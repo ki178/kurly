@@ -11,7 +11,7 @@
 <body>
     <div th:fragment="itembox1Fragment (items, title, subtitle)" class="first-container">
         <div class="title-container">
-            <a href="#" class="link">
+            <a th:href="@{/collection-groups/market-sales}" class="link">
                 <span class="title" th:text="${title}"></span>
             </a>
             <p class="subtitle" th:text="${subtitle}"></p>
