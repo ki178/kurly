@@ -666,6 +666,7 @@ i {
   font-size: 1rem;
 }
 #list > .item-container > .item > .--item > .item-detail > .item-price-details > .item-price-cover > .item-price > ._text-unDiscount {
+  margin-left: 0.5rem;
   color: #bcc4cc;
   text-decoration: line-through;
   display: -webkit-box;

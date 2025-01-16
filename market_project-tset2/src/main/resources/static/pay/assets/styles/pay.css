@@ -223,6 +223,7 @@ a {
 #main > .pay-order > .purchase-order > .item-detail > .items > .line > div > .item > .item-detail-container > .item-price > ._text-unDiscount {
   margin-left: 4px;
   color: #bcc4cc;
+  text-decoration: line-through;
   word-break: break-word;
   font-size: 13px;
   line-height: 18px;

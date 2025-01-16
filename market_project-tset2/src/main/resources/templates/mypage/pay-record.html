@@ -68,14 +68,14 @@
                             <div class="line"></div>
                             <div class="item" th:each="item : ${entry.value}">
                                 <div class="item-box">
-                                    <a href="#">
+                                    <a th:href="@{/goods/detail (itemId=${item.getPayItemId()})}">
                                         <img th:src="${item.getItemImage()}" th:alt="${item.getPayItemName()}" class="img">
                                     </a>
                                     <div class="item-detail">
                                         <div class="delivery">
                                             <p class="_text">샛별배송</p>
                                         </div>
-                                        <a href="#">
+                                        <a th:href="@{/goods/detail (itemId=${item.getPayItemId()})}">
                                             <p class="_text" th:text="${item.getPayItemName()}"></p>
                                         </a>
                                         <div class="item-price-container">

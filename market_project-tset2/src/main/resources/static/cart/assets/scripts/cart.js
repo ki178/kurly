@@ -243,6 +243,8 @@ document.addEventListener('DOMContentLoaded', () => {
 function calculateTotal() {
     const formData = new FormData();
     let totalItemPrice = 0;
+    let totalCostPrice = 0;
+    let discountPrice = 0;
 
     document.querySelectorAll('.item').forEach(item => {
         const checkbox = item.querySelector('.checkbox');
@@ -253,13 +255,18 @@ function calculateTotal() {
         if (checkbox && checkbox.checked) {
             const $indexElement  = item.querySelector('.id');
             const $itemPriceElement = item.querySelector('.itemPrice');
+            const $itemCostElement = item.querySelector('.cost-price');
             if ($indexElement  || $itemPriceElement) {
                 const $index = $indexElement .value.trim();
                 const $itemPrice = parseInt($itemPriceElement.innerText.replace(/[^0-9]/g, ''), 10);
+                const $costPrice = parseInt($itemCostElement.innerText.replace(/[^0-9]/g, ''), 10);
                 console.log()
                 formData.append('index', $index);
                 formData.append('itemPrice', $itemPrice.toString());
+                formData.append("costPrice", $costPrice.toString());
                 totalItemPrice += $itemPrice;
+                totalCostPrice += $costPrice;
+                discountPrice = $costPrice - $itemPrice;
             }
         }
     });
@@ -280,12 +287,15 @@ function calculateTotal() {
             return;
         }
         const totalPrice = response['totalPrice'] || 0;
-
+        const costPrice = response['costPrice']  || 0;
+        const discountPrice = response['discountPrice'] || 0;
         updateUI(totalPrice);
 
 
         function updateUI(totalPrice) {
             const priceText = `${totalPrice.toLocaleString()} 원`;
+            const costPriceText = `${costPrice.toLocaleString()} 원`;
+            const discountPriceText = `${discountPrice.toLocaleString()} 원`
             // 로그인 여부 확인
             const isLoggedIn = document.querySelector('a[href="/member/login"]') === null;
 
@@ -294,7 +304,8 @@ function calculateTotal() {
                 ? (totalPrice > 0 ? `${priceText} 주문하기` : "상품을 선택해주세요")
                 : "로그인";
 
-            document.querySelector('.pay > .price').innerText = priceText;
+            document.querySelector('.pay > .price').innerText = costPriceText;
+            document.querySelector('.pay > .color').innerText = discountPriceText;
             document.querySelector('.total-pay > .price').innerText = priceText;
             document.querySelector('.pay-button').innerText = buttonText;
 
@@ -411,13 +422,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // 플러스와 마이너스 총괄 관리
-{
+
     function updateQuantity(event, type) {
         const currentItem = event.currentTarget.closest('.item');
         const index = currentItem.querySelector('.index').value;
         const quantityElement = currentItem.querySelector('.quantity > .num');
         const itemPriceElement = currentItem.querySelector('.itemPrice');
-
+        const costPriceElement = currentItem.querySelector('.cost-price');
         const xhr = new XMLHttpRequest();
         const formData = new FormData();
         formData.append('index', index);
@@ -438,10 +449,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const updatedQuantity = response['result'];
             const basePrice = parseInt(itemPriceElement.getAttribute('data-price'), 10);
+            const costPrice = parseInt(costPriceElement.getAttribute('data-price'), 10);
             const updatedPrice = basePrice * updatedQuantity;
-
+            const updatedCostPrice = costPrice * updatedQuantity;
             quantityElement.innerText = updatedQuantity;
             itemPriceElement.innerText = `${updatedPrice.toLocaleString()} 원`;
+            costPriceElement.innerText = `${updatedCostPrice.toLocaleString()} 원`;
 
             calculateTotal(); // 수량 변경 후 총합 재계산
 
@@ -449,7 +462,7 @@ document.addEventListener('DOMContentLoaded', () => {
         xhr.open('POST', `/cart/${type}`);
         xhr.send(formData);
     }
-}
+
 
 
 

@@ -15,6 +15,7 @@
         SELECT `item_id`    AS `itemId`,
                `member_id`  AS `memberId`,
                `item_name`  AS `itemName`,
+               `cost_price` AS `costPrice`,
                `item_price` AS `itemPrice`,
                `quantity`   AS `quantity`,
                `is_checked` AS `isChecked`,
@@ -49,6 +50,7 @@
                `cart_id`    AS `cartId`,
                `item_id`    AS `itemId`,
                `item_name`  AS `itemName`,
+               `cost_price` AS `costPrice`,
                `item_price` AS `itemPrice`,
                `quantity`   AS `quantity`
         FROM kurly.`carts`

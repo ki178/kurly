@@ -58,7 +58,13 @@
                                             </div>
                                             <div class="item-price">
                                                 <p class="_text" th:text="|${#numbers.formatInteger(item.getItemPrice() * item.getQuantity(), 3, 'COMMA')} 원|"></p>
-                                                <span class="_text-unDiscount"></span>
+                                                <span class="_text-unDiscount"
+                                                      th:if="${item.getItemPrice() != item.getCostPrice()}"
+                                                      th:text="|${#numbers.formatInteger(item.getCostPrice() * item.getQuantity(), 3, 'COMMA')} 원|"></span>
+                                                <span class="_text-unDiscount"
+                                                      th:if="${item.getItemPrice() == item.getCostPrice()}"
+                                                      th:text="|${#numbers.formatInteger(item.getCostPrice() * item.getQuantity(), 3, 'COMMA')} 원|"
+                                                      style="display: none"></span>
                                                 <div class="line"></div>
                                                 <p class="quantity" th:text="|${item.getQuantity()} 개|"></p>
                                             </div>
@@ -182,6 +188,23 @@
                                             <span class="total-price item-total-price">
                                                 <span class="sign"></span>
 
+                                            </span>
+                                            <span class="won">원</span>
+                                        </div>
+                                    </div>
+                                    <div class="discount --price">
+                                        <div class="discount --price-text">
+                                            <svg width="16" height="20" viewBox="0 0 16 20" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                      d="M1 5H0V10V11H1H6V10H1V5Z" fill="#ddd"></path>
+                                            </svg>
+                                            <div class="discount --price-total-text">할인금액</div>
+                                        </div>
+                                        <div>
+                                            <span class="total-price discount-price">
+                                                <span class="sign">-</span>
+                                                0
                                             </span>
                                             <span class="won">원</span>
                                         </div>

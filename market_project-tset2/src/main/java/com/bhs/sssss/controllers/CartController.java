@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -43,10 +44,12 @@ public class CartController {
         // 장바구니 아이템 조회
         List<CartEntity> items = this.cartService.getCartsByMemberId(member.getId());
         boolean hasUncheckedItems = items.stream().anyMatch(item -> item.getIsChecked() == 0);
+        // `formattedItems` 생성 로직
+
+
         mav.addObject("member", member);
         mav.addObject("items", items);
         mav.addObject("hasUncheckedItems", hasUncheckedItems);
-
         mav.setViewName("cart/cart-in");
         return mav;
     }
@@ -109,7 +112,8 @@ public class CartController {
     @RequestMapping(value = "/totalPrice", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String calculateTotalPrice( @RequestParam(value = "index", required = false) List<Integer> index,
-                                       @RequestParam(value = "itemPrice", required = false) List<Integer> itemPrices) {
+                                       @RequestParam(value = "itemPrice", required = false) List<Integer> itemPrices,
+                                       @RequestParam(value = "costPrice", required = false) List<Integer> costPrices) {
         JSONObject response = new JSONObject();
         if (index == null || itemPrices == null || index.isEmpty() || itemPrices.isEmpty()) {
             response.put("totalPrice", 0);
@@ -123,7 +127,11 @@ public class CartController {
                 return response.toString();
             }
             int totalPrice = this.cartService.calculateTotalPrice(index, itemPrices);
+            int costPrice = this.cartService.calculateTotalCostPrice(index, costPrices);
+            int discountPrice = this.cartService.calculateTotalDiscountPrice(index, itemPrices, costPrices);
             response.put("totalPrice", totalPrice);
+            response.put("costPrice", costPrice);
+            response.put("discountPrice", discountPrice);
         }catch (NumberFormatException e) {
             response.put("error","잘못된 숫자 형식입니다.");
         }

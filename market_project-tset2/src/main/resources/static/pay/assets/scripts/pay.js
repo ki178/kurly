@@ -4,18 +4,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateTotalPrice =() => {
         const items = document.querySelectorAll('.item');
         let totalPrice = 0;
+        let totalCostPrice = 0;
+        let totalDiscountPrice = 0;
 
         items.forEach(item => {
             const itemPrice = parseInt(item.querySelector('.item-price >  ._text')?.textContent.replace(/[^0-9]/g, ''), 10);
+            const costPrice = parseInt(item.querySelector('._text-unDiscount')?.textContent.replace(/[^0-9]/g, ''), 10);
             const itemQuantity = parseInt(item.querySelector('.quantity')?.textContent.replace(/[^0-9]/g, ''), 10);
-            if (!isNaN(itemPrice) && !isNaN(itemQuantity)){
+            if (!isNaN(itemPrice) && !isNaN(itemQuantity) && !isNaN(costPrice)){
                 totalPrice += itemPrice;
+                totalCostPrice += costPrice;
+                totalDiscountPrice = totalCostPrice - totalPrice;
             }
         });
 
-        const totalPriceElements = document.querySelectorAll('.pay-total-price, .total, .pay-price, .item-total-price');
+        const totalPriceElements = document.querySelectorAll('.pay-total-price, .total, .pay-price');
         totalPriceElements.forEach(element => {
             element.textContent = `${totalPrice.toLocaleString()}`
+        });
+        const totalCostPriceElements = document.querySelectorAll('.item-total-price');
+        totalCostPriceElements.forEach(element => {
+            element.textContent = `${totalCostPrice.toLocaleString()}`
+        });
+        const totalDiscountPriceElements = document.querySelectorAll('.discount-price');
+        totalDiscountPriceElements.forEach(element => {
+            element.textContent = `${totalDiscountPrice.toLocaleString()}`
         });
 
         const payButton = document.querySelector('.pay-button > .pay-price');
