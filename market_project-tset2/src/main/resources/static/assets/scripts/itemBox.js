@@ -95,6 +95,15 @@ $cartBtn.forEach((x) => x.onclick = (e) => {
                             }]
                         })
                     }
+                    if(response['result'] === 'success'){
+                        Dialog.show({
+                            content: `장바구니에 담았습니다.`,
+                            buttons: [{
+                                text: '확인',
+                                onclick: ($dialog) => Dialog.hide($dialog)
+                            }]
+                        })
+                    }
                 };
                 xhr.open('POST', '/cart/in');
                 xhr.send(formData);
