@@ -79,10 +79,7 @@
                 <a th:href="@{/admin/}" class="menu">
                     <div class="text">멤버 정보 조회</div>
                 </a>
-                <a th:href="@{/admin/}" class="menu">
-                    <div class="text">멤버 정보 관리</div>
-                </a>
-                <a href="#" class="menu">
+                <a th:href="@{/admin/login-history}" class="menu">
                     <div class="text">로그인 기록</div>
                 </a>
             </div>
@@ -156,7 +153,7 @@
                             <tr class="suspended-tr">
                                 <th>활동</th>
                                 <td class="suspended-row">
-                                    <button class="approve --obj-button --color-light-primary active" th:classappend="${user.isSuspended() != true} ? 'active' : ''" type="button">승인</button>
+                                    <button class="approve --obj-button --color-light-primary" th:classappend="${user.isSuspended() != true} ? 'active' : ''" type="button">승인</button>
                                     <button class="suspended --obj-button --color-light-primary" th:classappend="${user.isSuspended() == true} ? 'active' : ''" type="button">정지</button>
                                 </td>
                             </tr>

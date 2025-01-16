@@ -1,5 +1,6 @@
 package com.bhs.sssss.controllers;
 
+import com.bhs.sssss.entities.LoginAttemptEntity;
 import com.bhs.sssss.entities.MemberEntity;
 import com.bhs.sssss.results.Result;
 import com.bhs.sssss.services.AdminService;
@@ -83,5 +84,25 @@ public class AdminController {
         JSONObject response = new JSONObject();
         response.put(Result.NAME, result.nameToLower());
         return response.toString();
+    }
+
+    @RequestMapping(value = "/login-history", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getLoginHistory(@SessionAttribute(value = "member", required = false) MemberEntity member,
+                                        @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                                        @RequestParam(value = "keyword", required = false) String keyword){
+        ModelAndView modelAndView = new ModelAndView();
+        if(keyword == null){
+            Pair<MemberPageVo, LoginAttemptEntity[]> pair = this.adminService.getLoginHistory(page);
+            modelAndView.addObject("pageVo", pair.getLeft());
+            modelAndView.addObject("loginAttempts", pair.getRight());
+        } else {
+            Pair<MemberPageVo, LoginAttemptEntity[]> pair = this.adminService.getLoginHistoryBySearch(page, keyword);
+            modelAndView.addObject("pageVo", pair.getLeft());
+            modelAndView.addObject("loginAttempts", pair.getRight());
+            modelAndView.addObject("keyword", keyword);
+        }
+        modelAndView.addObject("member", member);
+        modelAndView.setViewName("admin/login-history");
+        return modelAndView;
     }
 }

@@ -1,8 +1,10 @@
 package com.bhs.sssss.services;
 
 import com.bhs.sssss.entities.ItemEntity;
+import com.bhs.sssss.entities.LoginAttemptEntity;
 import com.bhs.sssss.entities.MemberEntity;
 import com.bhs.sssss.exceptions.TransactionalException;
+import com.bhs.sssss.mappers.LoginAttemptMapper;
 import com.bhs.sssss.mappers.MemberMapper;
 import com.bhs.sssss.results.CommonResult;
 import com.bhs.sssss.results.Result;
@@ -21,10 +23,12 @@ import java.time.LocalDateTime;
 @Service
 public class AdminService {
     private final MemberMapper memberMapper;
+    private final LoginAttemptMapper loginAttemptMapper;
 
     @Autowired
-    public AdminService(MemberMapper memberMapper) {
+    public AdminService(MemberMapper memberMapper, LoginAttemptMapper loginAttemptMapper) {
         this.memberMapper = memberMapper;
+        this.loginAttemptMapper = loginAttemptMapper;
     }
 
     public Result passwordCheck(MemberEntity member, String password){
@@ -88,5 +92,31 @@ public class AdminService {
         }
 
         return CommonResult.SUCCESS;
+    }
+
+    public Pair<MemberPageVo, LoginAttemptEntity[]> getLoginHistory(int page){
+        page = Math.max(1, page);
+        int totalCount = this.loginAttemptMapper.selectLoginAttemptsCount();
+        MemberPageVo memberPageVo = new MemberPageVo(page, totalCount);
+        LoginAttemptEntity[] loginAttempt = this.loginAttemptMapper.selectLoginAttempts(
+                memberPageVo.countPerPage,
+                memberPageVo.offsetCount
+        );
+        return Pair.of(memberPageVo, loginAttempt);
+    }
+
+    public Pair<MemberPageVo, LoginAttemptEntity[]> getLoginHistoryBySearch(int page, String keyword){
+        page = Math.max(1, page);
+        if(keyword == null) {
+            keyword = "";
+        }
+        int totalCount = this.loginAttemptMapper.selectLoginAttemptsCountBySearch(keyword);
+        MemberPageVo memberPageVo = new MemberPageVo(page, totalCount);
+        LoginAttemptEntity[] loginAttempt = this.loginAttemptMapper.selectLoginAttemptsBySearch(
+                keyword,
+                memberPageVo.countPerPage,
+                memberPageVo.offsetCount
+        );
+        return Pair.of(memberPageVo, loginAttempt);
     }
 }

@@ -7,4 +7,46 @@
         INSERT INTO `kurly`.`login_attempts` (`client_ip`, `client_id`, `client_ua`, `result`, `created_at`)
         VALUES (#{clientIp}, #{clientId}, #{clientUa}, #{result}, #{createdAt})
     </insert>
+
+    <select id="selectLoginAttemptsCount" resultType="_int">
+        SELECT COUNT(*)
+        FROM `kurly`.`login_attempts`
+    </select>
+
+    <select id="selectLoginAttemptsCountBySearch" resultType="_int">
+        SELECT COUNT(*)
+        FROM `kurly`.`login_attempts`
+        WHERE `client_id` LIKE CONCAT('%', #{keyword}, '%')
+           OR `result` LIKE CONCAT('%', #{keyword}, '%')
+           OR `client_ip` LIKE CONCAT('%', #{keyword}, '%')
+           OR `created_at` LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
+    <select id="selectLoginAttempts">
+        SELECT `index`      AS `index`,
+               `client_ip`  AS `clientIp`,
+               `client_id`  AS `clientId`,
+               `client_ua`  AS `clientUa`,
+               `result`     AS `result`,
+               `created_at` AS `createdAt`
+        FROM `kurly`.`login_attempts`
+        ORDER BY `index` DESC
+        LIMIT #{limitCount} OFFSET #{offsetCount}
+    </select>
+
+    <select id="selectLoginAttemptsBySearch">
+        SELECT `index`      AS `index`,
+               `client_ip`  AS `clientIp`,
+               `client_id`  AS `clientId`,
+               `client_ua`  AS `clientUa`,
+               `result`     AS `result`,
+               `created_at` AS `createdAt`
+        FROM `kurly`.`login_attempts`
+        WHERE `client_id` LIKE CONCAT('%', #{keyword}, '%')
+           OR `result` LIKE CONCAT('%', #{keyword}, '%')
+           OR `client_ip` LIKE CONCAT('%', #{keyword}, '%')
+           OR `created_at` LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY `index` DESC
+        LIMIT #{limitCount} OFFSET #{offsetCount}
+    </select>
 </mapper>
