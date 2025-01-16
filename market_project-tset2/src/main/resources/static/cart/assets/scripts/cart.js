@@ -423,45 +423,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // 플러스와 마이너스 총괄 관리
 
-    function updateQuantity(event, type) {
-        const currentItem = event.currentTarget.closest('.item');
-        const index = currentItem.querySelector('.index').value;
-        const quantityElement = currentItem.querySelector('.quantity > .num');
-        const itemPriceElement = currentItem.querySelector('.itemPrice');
-        const costPriceElement = currentItem.querySelector('.cost-price');
-        const xhr = new XMLHttpRequest();
-        const formData = new FormData();
-        formData.append('index', index);
-        formData.append('itemQuantity', quantityElement.innerText);
+function updateQuantity(event, type) {
+    const currentItem = event.currentTarget.closest('.item');
+    const index = currentItem.querySelector('.index').value;
+    const quantityElement = currentItem.querySelector('.quantity > .num');
+    const itemPriceElement = currentItem.querySelector('.itemPrice');
+    const costPriceElement = currentItem.querySelector('.cost-price');
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+    formData.append('index', index);
+    formData.append('itemQuantity', quantityElement.innerText);
 
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState !== XMLHttpRequest.DONE) {
-                return;
-            }
-            if (xhr.status < 200 || xhr.status >= 300) {
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState !== XMLHttpRequest.DONE) {
+            return;
+        }
+        if (xhr.status < 200 || xhr.status >= 300) {
 
-                return;
-            }
-            const response = JSON.parse(xhr.responseText);
-            if (response['result'] === 'error') {
-                alert(`Error: ${response['error']}`);
-                return;
-            }
-            const updatedQuantity = response['result'];
-            const basePrice = parseInt(itemPriceElement.getAttribute('data-price'), 10);
-            const costPrice = parseInt(costPriceElement.getAttribute('data-price'), 10);
-            const updatedPrice = basePrice * updatedQuantity;
-            const updatedCostPrice = costPrice * updatedQuantity;
-            quantityElement.innerText = updatedQuantity;
-            itemPriceElement.innerText = `${updatedPrice.toLocaleString()} 원`;
-            costPriceElement.innerText = `${updatedCostPrice.toLocaleString()} 원`;
+            return;
+        }
+        const response = JSON.parse(xhr.responseText);
+        if (response['result'] === 'error') {
+            alert(`Error: ${response['error']}`);
+            return;
+        }
+        const updatedQuantity = response['result'];
+        const basePrice = parseInt(itemPriceElement.getAttribute('data-price'), 10);
+        const costPrice = parseInt(costPriceElement.getAttribute('data-price'), 10);
+        const updatedPrice = basePrice * updatedQuantity;
+        const updatedCostPrice = costPrice * updatedQuantity;
+        quantityElement.innerText = updatedQuantity;
+        itemPriceElement.innerText = `${updatedPrice.toLocaleString()} 원`;
+        costPriceElement.innerText = `${updatedCostPrice.toLocaleString()} 원`;
 
-            calculateTotal(); // 수량 변경 후 총합 재계산
+        calculateTotal(); // 수량 변경 후 총합 재계산
 
-        };
-        xhr.open('POST', `/cart/${type}`);
-        xhr.send(formData);
-    }
+    };
+    xhr.open('POST', `/cart/${type}`);
+    xhr.send(formData);
+}
 
 
 

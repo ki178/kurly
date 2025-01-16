@@ -6,6 +6,7 @@ import com.bhs.sssss.results.CommonResult;
 import com.bhs.sssss.results.Result;
 import com.bhs.sssss.services.CartService;
 import com.bhs.sssss.services.MemberService;
+import com.bhs.sssss.vos.ClientVo;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -13,10 +14,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -43,9 +41,11 @@ public class MemberController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String postLogin(HttpServletRequest request, MemberEntity member) {
+    public String postLogin(@RequestAttribute(value = ClientVo.NAME) ClientVo clientVo,
+                            HttpServletRequest request, MemberEntity member) {
         HttpSession session = request.getSession();
         Result result = this.memberService.login(member);
+        this.memberService.handleLoginAttempt(clientVo, member.getId(), result);
         if(result == CommonResult.SUCCESS){
             session.setAttribute("member", member);
         }

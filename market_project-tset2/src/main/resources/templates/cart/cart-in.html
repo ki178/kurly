@@ -237,7 +237,7 @@
                                                        th:if="${item.getItemPrice() == item.getCostPrice()}"
                                                        th:text="|${#numbers.formatInteger(item.getCostPrice() * item.getQuantity(), 3, 'COMMA')} 원|"
                                                        th:data-price="${item.getCostPrice()}"
-                                                   style="display: none"></p>
+                                                       style="display: none"></p>
                                             </div>
                                             <div class="quantity">
                                                 <button class="minus" data-testid="stepper-button-Minus">

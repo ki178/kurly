@@ -1,9 +1,11 @@
 package com.bhs.sssss.services;
 
 import com.bhs.sssss.entities.EmailTokenEntity;
+import com.bhs.sssss.entities.LoginAttemptEntity;
 import com.bhs.sssss.entities.MemberEntity;
 import com.bhs.sssss.exceptions.TransactionalException;
 import com.bhs.sssss.mappers.EmailTokenMapper;
+import com.bhs.sssss.mappers.LoginAttemptMapper;
 import com.bhs.sssss.mappers.MemberMapper;
 import com.bhs.sssss.results.CommonResult;
 import com.bhs.sssss.results.Result;
@@ -12,6 +14,7 @@ import com.bhs.sssss.results.member.ResolveRecoverPasswordResult;
 import com.bhs.sssss.results.member.SignupResult;
 import com.bhs.sssss.results.member.ValidateEmailTokenResult;
 import com.bhs.sssss.utils.CryptoUtils;
+import com.bhs.sssss.vos.ClientVo;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,13 +38,15 @@ public class MemberService {
     private final EmailTokenMapper emailTokenMapper;
     private final JavaMailSender mailSender;
     private final SpringTemplateEngine templateEngine;
+    private LoginAttemptMapper loginAttemptMapper;
 
     @Autowired
-    public MemberService(MemberMapper memberMapper, EmailTokenMapper emailTokenMapper, JavaMailSender mailSender, SpringTemplateEngine templateEngine) {
+    public MemberService(MemberMapper memberMapper, EmailTokenMapper emailTokenMapper, JavaMailSender mailSender, SpringTemplateEngine templateEngine, LoginAttemptMapper loginAttemptMapper) {
         this.memberMapper = memberMapper;
         this.emailTokenMapper = emailTokenMapper;
         this.mailSender = mailSender;
         this.templateEngine = templateEngine;
+        this.loginAttemptMapper = loginAttemptMapper;
     }
 
     public String getRecoverId(String userName, String email){
@@ -108,6 +113,17 @@ public class MemberService {
         member.setVerified(dbMember.isVerified());
 
         return CommonResult.SUCCESS;
+    }
+
+    public void handleLoginAttempt(ClientVo clientVo, String id, Result result) {
+        LoginAttemptEntity loginAttempt = LoginAttemptEntity.builder()
+                .clientIp(clientVo.clientIp)
+                .clientId(id)
+                .clientUa(clientVo.clientUa)
+                .result(result.nameToLower())
+                .createdAt(LocalDateTime.now())
+                .build();
+        this.loginAttemptMapper.insertLoginAttempt(loginAttempt);
     }
 
     @Transactional
