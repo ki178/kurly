@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         const totalDiscountPriceElements = document.querySelectorAll('.discount-price');
         totalDiscountPriceElements.forEach(element => {
-            element.textContent = `${totalDiscountPrice.toLocaleString()}`
+            element.textContent = `- ${totalDiscountPrice.toLocaleString()}`
         });
 
         const payButton = document.querySelector('.pay-button > .pay-price');

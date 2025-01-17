@@ -190,7 +190,6 @@ a {
   font-size: 18px;
 }
 #pay-record > .pay-record-box > .load-container > .item-record-container > .item-container > .purchase-day > .purchase-day-text > .total-price-text {
-  cursor: pointer;
   display: flex;
   -webkit-box-align: center;
   align-items: center;

@@ -133,7 +133,7 @@ public class CartService {
         for (int i = 0; i < indices.size(); i++) {
             costPrice1 += costPrices.get(i); // costPrice 합산
             totalPrice2 += itemPrices.get(i); // itemPrice 합산
-            discountPrice = totalPrice2 - costPrice1;
+            discountPrice = costPrice1 - totalPrice2;
 
         }
         return discountPrice;
