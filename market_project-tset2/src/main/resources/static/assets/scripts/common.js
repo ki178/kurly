@@ -66,6 +66,7 @@ class Dialog {
         }
         $dialog.hide();
         setTimeout(() => $dialog.remove(), 1000);
+        location.reload();
     }
 
     /**
@@ -110,6 +111,12 @@ class Dialog {
             $dialog.show();
             Dialog.$cover.show();
         }, delay);
+
+        document.addEventListener('keydown', function(event) {
+            if (event.code === 'Enter') {
+                event.preventDefault();
+            }
+        }, true);
         return $dialog;
     }
 }
@@ -180,6 +187,11 @@ class Dialog2 {
 
         // 문서에 추가
         document.body.appendChild(dialogCover);
+        document.addEventListener('keydown', function(event) {
+            if (event.code === 'Enter') {
+                event.preventDefault();
+            }
+        }, true);
     }
 }
 
@@ -318,6 +330,11 @@ class CartDialog {
             $dialog.show();
             CartDialog.$cover.show();
         }, delay);
+        document.addEventListener('keydown', function(event) {
+            if (event.code === 'Enter') {
+                event.preventDefault();
+            }
+        }, true);
         return $dialog;
     }
 

@@ -139,20 +139,20 @@
                         </form>
                     </div>
                     <div class="page-container">
-                        <a class="move-first" th:href="@{'/admin/member-management' (page=1, keyword=${keyword})}">
+                        <a class="move-first" th:href="@{'/admin/login-history' (page=1, keyword=${keyword})}">
                             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAHCAQAAABwkq/rAAAAHUlEQVR42mNgAIPi/8X/kWkwA8SE0UQIMJAsCKMBBzk27fqtkcYAAAAASUVORK5CYII=" alt="처음 페이지로 이동하기 아이콘">
                         </a>
-                        <a class="move-prev" th:href="@{'/admin/member-management' (page=${pageVo.requestPage == 1 ? 1 : pageVo.requestPage - 1}, keyword=${keyword})}">
+                        <a class="move-prev" th:href="@{'/admin/login-history' (page=${pageVo.requestPage == 1 ? 1 : pageVo.requestPage - 1}, keyword=${keyword})}">
                             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAHCAQAAABqrk9lAAAAGElEQVR42mNgAIPi/8X/4QwwE5PBQJADAAKSG3cyVhtXAAAAAElFTkSuQmCC" alt="이전 페이지로 이동하기 아이콘">
                         </a>
                         <a th:each="page : ${#numbers.sequence(pageVo.displayMinPage, pageVo.displayMaxPage)}"
                            th:text="${page}"
-                           th:href="@{'/admin/member-management' (page=${page}, keyword=${keyword})}"
+                           th:href="@{'/admin/login-history' (page=${page}, keyword=${keyword})}"
                            th:classappend="${page == pageVo.requestPage ? 'active' : 'normal'}"></a>
-                        <a class="move-next" th:href="@{'/admin/member-management' (page=${pageVo.requestPage == pageVo.movableMaxPage ? pageVo.requestPage : pageVo.requestPage+1}, keyword=${keyword})}">
+                        <a class="move-next" th:href="@{'/admin/login-history' (page=${pageVo.requestPage == pageVo.movableMaxPage ? pageVo.requestPage : pageVo.requestPage+1}, keyword=${keyword})}">
                             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAHCAQAAABqrk9lAAAAGUlEQVR42mMo/l/8nwECQEwCHEwGhAlRBgA2mht3SwgzrwAAAABJRU5ErkJggg==" alt="다음 페이지로 이동하기 아이콘">
                         </a>
-                        <a class="move-last" th:href="@{'/admin/member-management' (page=${pageVo.movableMaxPage}, keyword=${keyword})}">
+                        <a class="move-last" th:href="@{'/admin/login-history' (page=${pageVo.movableMaxPage}, keyword=${keyword})}">
                             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAHCAQAAABwkq/rAAAAIElEQVR42mMo/l/8n4GBgQFGQ5kgDowmQZCwAMImhDkAb0k27Zcisn8AAAAASUVORK5CYII=" alt="마지막 페이지로 이동하기 아이콘">
                         </a>
                     </div>

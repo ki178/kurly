@@ -3,10 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bhs.sssss.mappers.ReviewMapper">
+
     <insert id="insertReview" parameterType="com.bhs.sssss.entities.ReviewEntity">
-        INSERT INTO `kurly`.`review` (`writer`, `title`, `content`, `image_index`, `created_at`, `updated_at`,
-        `deleted_at`)
-        VALUES (#{writer}, #{title}, #{content}, #{imageIndex}, #{createdAt}, #{updatedAt}, #{deletedAt})
+        INSERT INTO `kurly`.`review` (`writer`, `title`, `content`, `image_index`, `item_id`, `created_at`, `updated_at`,
+                                      `deleted_at`)
+        VALUES (#{writer}, #{title}, #{content}, #{imageIndex}, #{itemId}, #{createdAt}, #{updatedAt}, #{deletedAt})
     </insert>
 
     <select id="selectAllReviews" resultType="com.bhs.sssss.entities.ReviewEntity">
@@ -32,11 +33,13 @@
 
     <update id="updateReview" parameterType="com.bhs.sssss.entities.ReviewEntity">
         UPDATE `kurly`.`review`
-        SET `title` = #{title},
-        `content` = #{content},
-        `image_index` = #{imageIndex},
-        `updated_at` = NOW()
-        WHERE `index` = #{index} AND `deleted_at` IS NULL;
+        SET `title`       = #{title},
+            `content`     = #{content},
+            `image_index` = #{imageIndex},
+            `updated_at`  = #{updatedAt}
+        WHERE `index` = #{index}
+          AND `deleted_at` IS NULL
+        LIMIT 1;
     </update>
 
     <update id="deleteReview">
@@ -49,7 +52,7 @@
     <!-- 복구 처리 -->
     <update id="restoreReview">
         UPDATE `kurly`.`review`
-        SET `deleted_at` = NULL  <!-- 삭제 일시를 NULL로 설정하여 복구 -->
+        SET `deleted_at` = NULL
         WHERE `index` = #{index};
     </update>
 
@@ -59,4 +62,29 @@
         FROM `kurly`.`review`
         WHERE `index` = #{index} AND `deleted_at` IS NULL
     </select>
+
+    <select id="selectReviewsByItemId" resultType="com.bhs.sssss.entities.ReviewEntity">
+        SELECT `index`       AS `index`,
+               `writer`      AS `writer`,
+               `title`       AS `title`,
+               `content`     AS `content`,
+               `image_index` AS `imageIndex`,
+               `item_id`     AS `itemId`,
+               `created_at`  AS `createdAt`,
+               `updated_at`  AS `updatedAt`,
+               `deleted_at`  AS `deletedAt`
+        FROM `kurly`.`review`
+        WHERE `item_id` = #{itemId}
+          AND `deleted_at` IS NULL
+        ORDER BY `created_at` DESC
+        LIMIT #{limitCount} OFFSET #{offsetCount};
+    </select>
+
+    <select id="countReviewsByItemId" resultType="_int">
+        SELECT COUNT(*)
+        FROM `kurly`.`review`
+        WHERE `item_id` = #{itemId}
+          AND `deleted_at` IS NULL;
+    </select>
+
 </mapper>
