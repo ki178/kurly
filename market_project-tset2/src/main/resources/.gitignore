@@ -9,3 +9,4 @@ gen
 .mvn
 build
 application.properties
+application-local.properties
